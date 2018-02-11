@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Prototyping/Prototype Scenes/01.Setting up and Player/SETUPandPLAYER.unity
+  isLoaded: 1
+  isActive: 1
