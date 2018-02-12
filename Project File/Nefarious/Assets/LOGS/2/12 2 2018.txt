@@ -1,0 +1,9 @@
+[02/12/2018]
+
+[JournalEditor]:[22:39] : Finished the Journal Entry system, fully polished and saves.
+[JournalEditor]:[22:40] : Ability to easily copy and paste logs added
+[JournalEditor]:[22:40] : Automatically categorizes logs per day and per month
+[JournalEditor]:[22:40] : Ability to link objects to the journal 
+[Directional Light]:[22:41] : Testing the link object on a GameObject...
+[Directional Light]:[22:41] : Every day this will help me keep track of what I did and I can repeat my steps to fix issues of similar nature in the future.
+[22:41] : I am going to post this now, including the journal script + screenshots of my editor
