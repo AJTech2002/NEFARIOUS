@@ -1,0 +1,7 @@
+[02/18/2018]
+
+[09:12] : Began work on the player controller
+[09:13] : Began work on procedural forces
+
+[09:13] : Character Motor is in development now
+[09:13] : Planning the controller and how it will be moving
