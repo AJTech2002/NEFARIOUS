@@ -5,3 +5,15 @@
 
 [09:13] : Character Motor is in development now
 [09:13] : Planning the controller and how it will be moving
+[17:22] : Begin writing the player controller
+
+[17:44] : Created the player testing arena
+[17:45] : Created complex geometry to test player's movement capabilities
+
+[17:55] : Learning to write higher performance code 
+[18:14] : Writing the player motor
+[PlayerMotor]:[19:00] : Getting info from Overgrowth GDC Talk
+[PlayerMotor]:[19:00] : Comparing my notes w/ the Unity's inbuilt system
+[PlayerMotor]:[19:04] : Okay wow, honestly worst than I was expecting. I don't even need to learn anything from that sorry.
+[PlayerMotor]:[19:22] : Planned out the entire system and will begin writing tomorrow
+[PlayerMotor]:[19:22] : Comparing with my old controller (which is very advanced and good...)
