@@ -1,1 +1,14 @@
-﻿<Properties />
+﻿<Properties StartupConfiguration="{BC03F532-D038-75E0-6C7A-8BA8CFAAE60F}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/All Scripts/Core Systems/Player System/Motor System/PlayerMotor.cs">
+    <Files>
+      <File FileName="Assets/All Scripts/Core Systems/Player System/Motor System/PlayerMotor.cs" Line="185" Column="5" />
+      <File FileName="Assets/All Scripts/Core Systems/Player System/Motor System/PlayerController.cs" Line="16" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

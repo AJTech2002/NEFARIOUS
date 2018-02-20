@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio for Mac
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nefarious", "Nefarious.csproj", "{BC03F532-D038-75E0-6C7A-8BA8CFAAE60F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nefarious.Editor", "Nefarious.Editor.csproj", "{E831DA09-DCDD-554C-9A1B-95204CF91438}"

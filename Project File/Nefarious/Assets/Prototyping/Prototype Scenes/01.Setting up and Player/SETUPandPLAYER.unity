@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -243,9 +243,9 @@ GameObject:
   - component: {fileID: 765364536}
   - component: {fileID: 765364535}
   - component: {fileID: 765364534}
-  - component: {fileID: 765364539}
   - component: {fileID: 765364538}
-  m_Layer: 0
+  - component: {fileID: 765364539}
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 765364533}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -331,22 +331,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayGizmos: 0
-  playerHeight: 0
+  playerHeight: 1.2
   playerWidth: 0
   currentMass: 1
-  globalMovementSpeed: 0
-  axisMovementSpeed: 0
+  globalMovementSpeed: 0.2
+  axisMovementSpeed: 0.2
+  futureGroundCheck: 0.21
   slopeLimit: 0
   slopeLimitModifier: 0
-  bumperSpherePoint: {x: 0, y: 0, z: 0}
-  bumperSphereRadius: 0
-  liftSpherePoint: {x: 0, y: 0, z: 0}
-  liftSphereRadius: 0
+  bumperSpherePoint: {x: 0, y: 0.5, z: 0}
+  bumperSphereRadius: 0.38
+  liftSpherePoint: {x: 0, y: -0.46, z: 0}
+  liftSphereRadius: 0.3
   gravityPower: 0
   gravityMultiplier: 0
   discludePlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967039
   jumpHeight: 0
   grounded: 0
 --- !u!114 &765364539
@@ -360,6 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e899b9292fc740cfb1a9c26ca2d9ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  motor: {fileID: 765364538}
 --- !u!1001 &789858764
 Prefab:
   m_ObjectHideFlags: 0

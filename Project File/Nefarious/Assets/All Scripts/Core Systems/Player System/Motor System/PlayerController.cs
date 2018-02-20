@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //This controller manages how the the controller uses information
+
+    public PlayerMotor motor;
+
+    private void Update()
+    {
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical"));
+        motor.AddForce(input);
+
+
+        motor.FinalMovement();
+
+    }
+
 }

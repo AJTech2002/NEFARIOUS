@@ -26,6 +26,7 @@ public class PlayerMotor : MonoBehaviour {
     public float axisMovementSpeed;
 
     [Header("Slopes")]
+    public float futureGroundCheck = 0.01f;
     public float slopeLimit;
     public float slopeLimitModifier;
 
@@ -71,12 +72,29 @@ public class PlayerMotor : MonoBehaviour {
 
     #region Code
 
+
+    private void OnDrawGizmos()
+    {
+     
+        Gizmos.color = Color.black;
+        Gizmos.DrawSphere((transform.position) + (transform.up/2+(transform.forward*futureGroundCheck)),0.02f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.TransformPoint(bumperSpherePoint),bumperSphereRadius);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.TransformPoint(liftSpherePoint),liftSphereRadius);
+
+    }
+
     //Everything will be placed here properly
     //Using multithreading to make different events like Collisoin and Error Checking work together :)
 
-    private void Update()
+    private void LateUpdate()
     {
         //Run Final Movement + Gravity Amongst other neccesities.. 
+
+
 
     }
 
@@ -93,23 +111,41 @@ public class PlayerMotor : MonoBehaviour {
         }
     }
 
- 
-    private void FinalMovement() {
+
+    public void FinalMovement()
+    {
         //Calculate the movement 
         //Calculate current velocity
         //Change the bumper sphere position
+        //Friction and slow down speed over time
+
+        Vector3 movementVel = new Vector3(vel.x, vel.y, vel.z);
+        movementVel = transform.TransformDirection(movementVel);
+
+        transform.position += movementVel * globalMovementSpeed;
+
+        vel = new Vector3(0, 0, 0);
+
     }
 
 
     public void AddForce(Vector3 force) {
 
-        //! Normalise the values !//
+        /*! Normalise the values !//
         //Change based on mass
         //Calculate Collisions
         //Corridor Trapping
         //Ground calculation (Future based)
         //Slope traversing
-        //Future clamping to ground etc...
+        //Future clamping to ground etc... */
+
+        Vector3 f = force;
+        f *= axisMovementSpeed;
+
+        //Clamp To The Ground #1
+        ClampToGround(transform.TransformDirection(f));
+
+        vel += f;
 
 
     }
@@ -135,17 +171,42 @@ public class PlayerMotor : MonoBehaviour {
     }
 
     private void CalculateGround (Vector3 position) {
-        //Shoot a ray from forward point downwards
+        /*Shoot a ray from forward point downwards
         //Check groundedness based on ray and sphere check in area
-        //Check the state to make sure you can be grounded
+        //Check the state to make sure you can be grounded*/
+
+
+
     }
 
-    private void ClampToGround (RaycastHit hit) {
-        //Clamp to the future ground and make it work like that
+
+    //TODO : Change to just a RayCast
+    //TODO : Use the step height to calculate weather you can climb up... or collide script activate :)
+
+    private void ClampToGround (Vector3 vel) {
+        /*Clamp to the future ground and make it work like that
         //Check if the ground is higher than the stair if not, then
         //Lerp onto the stair, not through the stair..
         //Stair movement and dropping
-        //Smoothening movement
+        //Smoothening movement*/
+
+        Vector3 p = transform.TransformPoint(liftSpherePoint)+(vel*futureGroundCheck);
+        RaycastHit[] hits = new RaycastHit[10];
+
+        int count = Physics.SphereCastNonAlloc(p,liftSphereRadius,Vector3.zero,hits,playerHeight,discludePlayer);
+
+        if (hits.Length > 0) {
+            RaycastHit hitNeeded = hits[0];
+            for (int i = 0;i < hits.Length; i++) {
+                if (hits[i].point.y > hitNeeded.point.y) {
+                    hitNeeded = hits[i];
+                }    
+            }
+
+            transform.position = new Vector3(transform.position.x, hitNeeded.point.y+playerHeight/2, transform.position.z);
+
+        }
+
     }
 
     private void CalculateCollisions() {
