@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 765364534}
   - component: {fileID: 765364538}
   - component: {fileID: 765364539}
+  - component: {fileID: 765364540}
   m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
@@ -258,7 +259,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 765364533}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -331,25 +332,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayGizmos: 0
-  playerHeight: 1.2
+  playerHeight: 1
   playerWidth: 0
   currentMass: 1
   globalMovementSpeed: 0.2
   axisMovementSpeed: 0.2
-  futureGroundCheck: 0.21
-  slopeLimit: 0
-  slopeLimitModifier: 0
+  climbingSpeeds: 0.19
+  futureGroundCheck: 0.03
+  slopeLimit: 70
+  slopeLimitModifier: 1
+  bumperCollider: {fileID: 765364540}
   bumperSpherePoint: {x: 0, y: 0.5, z: 0}
   bumperSphereRadius: 0.38
   liftSpherePoint: {x: 0, y: -0.46, z: 0}
   liftSphereRadius: 0.3
-  gravityPower: 0
-  gravityMultiplier: 0
+  gravityPower: 0.84
+  gravityMultiplier: 0.04
   discludePlayer:
     serializedVersion: 2
     m_Bits: 4294967039
-  jumpHeight: 0
-  grounded: 0
+  jumpForce: 1.34
+  incrementJumpFallSpeed: 0.05
+  jumpDecrease: 0.01
+  grounded: 1
+  f: {x: 0, y: 0, z: 0}
+  currentSlopeModifier: 0
 --- !u!114 &765364539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +369,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motor: {fileID: 765364538}
+--- !u!135 &765364540
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 765364533}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.46
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &789858764
 Prefab:
   m_ObjectHideFlags: 0
@@ -553,6 +572,7 @@ GameObject:
   - component: {fileID: 1957470719}
   - component: {fileID: 1957470718}
   - component: {fileID: 1957470717}
+  - component: {fileID: 1957470721}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -616,13 +636,30 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1957470716}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.21420008, y: 0.2780828, z: -0.06376106, w: 0.93419635}
+  m_LocalPosition: {x: -3.25, y: 4.28, z: -11.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 25.828001, y: 33.153, z: 0}
+--- !u!114 &1957470721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1957470716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5083a379781c48abbcf47cd7c998df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockCursor: 0
+  mouseSensitivity: 10
+  target: {fileID: 765364537}
+  distFromTarget: 2
+  pitchMinMax: {x: -40, y: 85}
+  rotationSmoothTime: 0.12
 --- !u!1 &1966671163 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100004, guid: ff30e85b21c774d4288a6939d0b78b11, type: 3}

@@ -1,0 +1,7 @@
+[02/22/2018]
+
+[06:06] : Wow! Okay so I just finished 3/4 of the player controller
+[06:06] : You can move around, jump, collider, climb slopes, go up stairs
+[06:06] : Next is all the polishing tricks that i will be adding
+
+[06:07] : It's a very clean and optimised script and handles everything customly

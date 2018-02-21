@@ -11,10 +11,20 @@ public class PlayerController : MonoBehaviour {
     private void Update()
     {
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical"));
+
         motor.AddForce(input);
 
+        motor.Gravity();
 
         motor.FinalMovement();
+
+        motor.CalculateCollisions();
+
+
+        motor.ClampToGround(transform.TransformDirection(motor.f));
+
+        motor.Jump();
+
 
     }
 

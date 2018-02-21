@@ -318,6 +318,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\All Scripts\Core Systems\Player System\Motor System\CameraController.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\Player System\Motor System\PlayerController.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\Player System\Motor System\PlayerMotor.cs" />
     <Compile Include="Assets\Editor Systems\Dialogue\Classes\DNodeClass.cs" />
@@ -349,6 +350,7 @@
     <None Include="Assets\Imported Assets\Gameplay\INCLUDES.txt" />
     <None Include="Assets\Imported Assets\Post Processing\INCLUDES.txt" />
     <None Include="Assets\LOGS\2\18 2 2018.txt" />
+    <None Include="Assets\LOGS\2\22 2 2018.txt" />
     <None Include="Assets\Main Scenes\01\Scene Specific\Cut Scenes\INCLUDES.txt" />
     <None Include="Assets\Main Scenes\01\Scene Specific\Music\INCLUDES.txt" />
     <None Include="Assets\Main Scenes\01\Scene Specific\Scripts\INCLUDES.txt" />
