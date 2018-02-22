@@ -5,3 +5,6 @@
 [06:06] : Next is all the polishing tricks that i will be adding
 
 [06:07] : It's a very clean and optimised script and handles everything customly
+[8:48 AM] : Implementing slope climbing and sliding
+[8:49 AM] : Not working correctly and is providing un desirable sliding effects
+[8:49 AM] : Will try to use a Lerping function in order to counter act the weird movement

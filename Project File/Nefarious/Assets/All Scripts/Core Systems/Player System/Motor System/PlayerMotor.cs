@@ -148,6 +148,7 @@ public class PlayerMotor : MonoBehaviour {
         //Slope traversing
         //Future clamping to ground etc... */
 
+        //AXIS POWER for '1'
         f = force;
         f *= axisMovementSpeed;
 
@@ -204,19 +205,53 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
+    //SLOPE MODIFICATION VARIABLES
+
+    float slopeTimer = 0f;
+    Vector3 lastNormal = new Vector3(0, 0, 0);
+    float coolDown = 0f;
+    float axisPower = 0f;
+
     public void SlopeCalculation (RaycastHit groundPoint) {
+
+        //TODO: Add warm down timer so slope continues to slide
+        //TOOD: Also make sure the normal is transformed to be in local sapce
+
         //Check if slope is too high
         //Everytime it is add more pressure to moving upward
         //If maximum pressure threshold is reached then begin sliding downward.
         //Change based on mass
-
+        axisPower = 1;
         float slope = Vector3.Angle(groundPoint.normal,Vector3.up);
-        float percent = 1 - ( slope/slopeLimit );
 
-        print(percent); 
+        if (lastNormal != groundPoint.normal)
+        {
+            lastNormal = groundPoint.normal;
+            slopeTimer = 0f;
+            coolDown = 0f;
+            
+        }
 
-        currentSlopeModifier = slopeLimitModifier*percent;
 
+        if (slope > slopeLimit)
+        {
+
+
+
+            float percent = (slope / slopeLimit);
+
+            Debug.DrawLine(groundPoint.point, groundPoint.point + groundPoint.normal * 5, Color.red, 0.2f);
+
+            currentSlopeModifier = (slopeLimitModifier * percent) * slopeTimer;
+
+
+            transform.position = Vector3.Lerp(transform.position, transform.position - new Vector3(groundPoint.normal.x, 0, groundPoint.normal.z) * (currentSlopeModifier), 0.2f);
+
+            slopeTimer += Time.deltaTime * 0.02f;
+
+        }
+
+        coolDown += Time.deltaTime;
 
     }
 
@@ -264,7 +299,7 @@ public class PlayerMotor : MonoBehaviour {
                 Vector3 shouldBe = new Vector3(transform.position.x, hit.point.y + playerHeight/2, transform.position.z);
                 transform.position = Vector3.Lerp(transform.position,shouldBe,climbingSpeeds);
             }
-            //SlopeCalculation(hit);
+           // SlopeCalculation(hit);
 
             grounded = true;
 
