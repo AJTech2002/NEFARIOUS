@@ -16,10 +16,11 @@ public class PlayerController : MonoBehaviour {
 
         motor.Gravity();
 
+
         motor.FinalMovement();
 
-        motor.CalculateCollisions();
 
+        motor.CalculateCollisions();
 
         motor.ClampToGround(transform.TransformDirection(motor.f));
 

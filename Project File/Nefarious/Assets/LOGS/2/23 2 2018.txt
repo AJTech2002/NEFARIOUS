@@ -1,0 +1,8 @@
+[2/23/2018]
+
+[7:54 PM] : Made the player a lot smoother to use 
+[7:55 PM] : Added even smooth stair climbing
+[7:55 PM] : Able to traverse extremely complicated geometry
+[7:55 PM] : Ability to stick to moving platforms etc...
+[7:55 PM] : Currently working on the corridor movement :
+[PlayerMotor]:[7:56 PM] : My current idea is to raycast to check if the sides are blocked and the sides are lower than the radius of the bumper sphere and if so, stop movement...

@@ -77,6 +77,10 @@ public class PlayerMotor : MonoBehaviour {
 
     #region Code
 
+    private void Awake()
+    {
+      
+    }
 
     private void OnDrawGizmos()
     {
@@ -99,6 +103,7 @@ public class PlayerMotor : MonoBehaviour {
     public Vector3 f = new Vector3(0,0,0);
     [HideInInspector]
     public float currentSlopeModifier = 0;
+
     private void LateUpdate()
     {
         //Run Final Movement + Gravity Amongst other neccesities.. 
@@ -110,6 +115,7 @@ public class PlayerMotor : MonoBehaviour {
     private float cGravMultiplier;
     //Change based on mass
     //TODO: If the ground is only a little bit below then decrease the gravity.
+
     public void Gravity() {
         if (!grounded) {
             vel.y -= (gravityPower)*cGravMultiplier;
@@ -151,6 +157,13 @@ public class PlayerMotor : MonoBehaviour {
         //AXIS POWER for '1'
         f = force;
         f *= axisMovementSpeed;
+
+
+        if (f != Vector3.zero)
+            lastMovement = f;
+
+       // f = CorridorDetection(lastMovement);
+
 
         //Clamp To The Ground #1
 
@@ -255,9 +268,57 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
-    private void CorridorDetection () {
-        //Make sure corridors are detected and the closer we get to stopping the slower we get
-        //Make sure we are not clamping towards the ground...
+    private bool colliding = false;
+    private Vector3 lastMovement;
+
+    private Vector3 CorridorDetection (Vector3 movement) {
+
+        if (colliding)
+        {
+            //Make sure corridors are detected and the closer we get to stopping the slower we get
+            //Make sure we are not clamping towards the ground...
+
+            Vector3 crossedVectorR = Vector3.Cross(transform.TransformDirection(movement), transform.up);
+            Vector3 crossedVectorL = -crossedVectorR;
+
+            Ray rayR = new Ray(transform.position+transform.TransformDirection(movement), transform.TransformDirection(crossedVectorR));
+            RaycastHit hit;
+
+
+            Vector3 rP = transform.position+rayR.direction;
+            
+
+            if (Physics.Raycast(rayR, out hit, bumperSphereRadius * 5, discludePlayer))
+            {
+                rP = hit.point; Debug.DrawLine(transform.position, hit.point);
+
+            }
+
+            Ray rayL = new Ray(transform.position + transform.TransformDirection(movement), transform.TransformDirection(crossedVectorL));
+            RaycastHit hitL;
+
+            Vector3 lP = transform.position + rayL.direction;
+            //  Debug.DrawLine(transform.position, transform.position + rayL.direction * (bumperCollider.radius + 0.1f));
+            if (Physics.Raycast(rayL, out hitL, bumperSphereRadius * 5, discludePlayer))
+            {
+                lP = hit.point; Debug.DrawLine(transform.position, hitL.point);
+            }
+            // print(Vector3.Distance(rP, lP));
+
+    
+
+            if (Vector3.Distance(lP,rP) < 0.05f)
+            {
+
+                print(Vector3.Distance(lP, rP));
+                return movement * (Vector3.Distance(rP, lP));
+                
+            }
+
+        }
+
+        return movement;
+
     }
 
     private void CalculateGround (Vector3 position) {
@@ -268,7 +329,6 @@ public class PlayerMotor : MonoBehaviour {
 
 
     }
-
 
     //TODO : Change to just a RayCast
     //TODO : Use the step height to calculate weather you can climb up... or collide script activate :)
@@ -282,6 +342,8 @@ public class PlayerMotor : MonoBehaviour {
         //Smoothening movement*/
 
         //TODO: Make sure that it is future checking
+
+        //TODO: Make sure it is checking if it fell through the ground
 
 
         float ht = playerHeight+2f;
@@ -327,19 +389,27 @@ public class PlayerMotor : MonoBehaviour {
             float dist;
             Vector3 dir;
 
-            if (Physics.ComputePenetration(a,transform.position,transform.rotation,b,b.transform.position,b.transform.rotation,out dir, out dist)) {
+            if (Physics.ComputePenetration(a, transform.position, transform.rotation, b, b.transform.position, b.transform.rotation, out dir, out dist))
+            {
 
                 Vector3 penetrationVector = dir * dist;
-                Vector3 velocityProjected = Vector3.Project (vel, -dir);
+                Vector3 velocityProjected = Vector3.Project(vel, -dir);
                 transform.position = transform.position + penetrationVector;
                 vel -= velocityProjected;
 
-               
+                colliding = true;
+
+
+            }
+            else
+            {
+                colliding = false;
 
             }
 
-
         }
+
+
 
     }
 
