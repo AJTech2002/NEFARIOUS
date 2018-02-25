@@ -26,6 +26,7 @@ public class PlayerMotor : MonoBehaviour {
     public float globalMovementSpeed;
     public float axisMovementSpeed;
     public float climbingSpeeds;
+    public float stairClimbingSpeeds = 0.2f;
 
     [Header("Slopes")]
     public float futureGroundCheck = 0.01f;
@@ -79,7 +80,7 @@ public class PlayerMotor : MonoBehaviour {
 
     private void Awake()
     {
-      
+        axisPower = 1f;
     }
 
     private void OnDrawGizmos()
@@ -155,8 +156,12 @@ public class PlayerMotor : MonoBehaviour {
         //Future clamping to ground etc... */
 
         //AXIS POWER for '1'
+
+        axisPower = Mathf.Clamp(axisPower, 0, 1);
+        print(axisPower);
+
         f = force;
-        f *= axisMovementSpeed;
+        f *= axisMovementSpeed*axisPower;
 
 
         if (f != Vector3.zero)
@@ -334,6 +339,9 @@ public class PlayerMotor : MonoBehaviour {
     //TODO : Use the step height to calculate weather you can climb up... or collide script activate :)
 
     private float gravModif;
+    private Vector3 lastClampPosition = Vector3.zero;
+    private float lastClimbSpeed = 1f;
+
     public void ClampToGround (Vector3 vel) {
         /*Clamp to the future ground and make it work like that
         //Check if the ground is higher than the stair if not, then
@@ -352,16 +360,76 @@ public class PlayerMotor : MonoBehaviour {
             ht -= 2f;
         }
 
-        Vector3 point = transform.TransformPoint(transform.up/2+(vel*futureGroundCheck));
+        Vector3 point = transform.TransformPoint(transform.up/2+(lastMovement*futureGroundCheck));
         Ray ray = new Ray(point, Vector3.down);
         RaycastHit hit;
+
+       
 
         //CHECK THE LAST POINT IT CLAMPED TOOO AND IF THIS IS DIST > 0.5 THEN LERP IT BOI (LOWER LERP)
 
         if (Physics.Raycast(ray, out hit, ht, discludePlayer)) {
             if (hit.point.y <= (transform.TransformPoint(liftSpherePoint).y+liftSphereRadius)) {
                 Vector3 shouldBe = new Vector3(transform.position.x, hit.point.y + playerHeight/2, transform.position.z);
-                transform.position = Vector3.Lerp(transform.position,shouldBe,climbingSpeeds);
+                float slope = Vector3.Angle(hit.normal, Vector3.up);
+                float finalSpeed = lastClimbSpeed;
+                bool canClimb = true;
+
+                if (shouldBe.y > lastClampPosition.y)
+                {
+                    if (slope > slopeLimit)
+                    {
+                        float dif = 1-((slopeLimit / slope));
+                        print(dif);
+                        axisPower *= 1-dif;
+                        finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.8f, 0.4f);
+                    }
+                    else
+                    {
+                        if (axisPower <= 1f)
+                        {
+                            if (axisPower <= 0.2f)
+                                axisPower = 0.2f;
+                            axisPower = Mathf.Clamp(axisPower * 1.1f, 0, 1);
+                        }
+
+                        if ((shouldBe.y-lastClampPosition.y) > 0.08f)
+                        {
+                            finalSpeed = stairClimbingSpeeds;
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (!Mathf.Approximately(shouldBe.y, lastClampPosition.y))
+                    {
+
+                       if ((lastClampPosition.y - shouldBe.y) > 0.08f)
+                        {
+                            finalSpeed = stairClimbingSpeeds;
+                        }
+
+                    }
+
+                    if (axisPower <= 1f)
+                    {
+                        if (axisPower <= 0.2f)
+                            axisPower = 0.2f;
+                        axisPower = Mathf.Clamp(axisPower * 1.1f, 0, 1);
+                    }
+
+                }
+
+                lastClampPosition = shouldBe;
+                lastClimbSpeed = finalSpeed;
+
+                if (canClimb && axisPower >= 0.2f)
+                {
+                    transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
+                    //axisPower = 1f;
+                }
+
             }
            // SlopeCalculation(hit);
 
