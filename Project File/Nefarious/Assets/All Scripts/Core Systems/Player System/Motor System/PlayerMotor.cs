@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -355,6 +355,8 @@ public class PlayerMotor : MonoBehaviour {
         Vector3 point = transform.TransformPoint(transform.up/2+(vel*futureGroundCheck));
         Ray ray = new Ray(point, Vector3.down);
         RaycastHit hit;
+
+        //CHECK THE LAST POINT IT CLAMPED TOOO AND IF THIS IS DIST > 0.5 THEN LERP IT BOI (LOWER LERP)
 
         if (Physics.Raycast(ray, out hit, ht, discludePlayer)) {
             if (hit.point.y <= (transform.TransformPoint(liftSpherePoint).y+liftSphereRadius)) {
