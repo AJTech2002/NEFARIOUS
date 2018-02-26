@@ -422,8 +422,8 @@ MonoBehaviour:
   globalMovementSpeed: 0.2
   axisMovementSpeed: 0.2
   climbingSpeeds: 0.95
-  stairClimbingSpeeds: 0.2
-  futureGroundCheck: 0.03
+  stairClimbingSpeeds: 0.13
+  futureGroundCheck: 0.18
   slopeLimit: 55
   slopeLimitModifier: 1
   bumperCollider: {fileID: 765364540}

@@ -379,23 +379,19 @@ public class PlayerMotor : MonoBehaviour {
                 {
                     if (slope > slopeLimit)
                     {
-                        float dif = 1-((slopeLimit / slope));
-                        print(dif);
-                        axisPower *= 1-dif;
-                        finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.8f, 0.4f);
+                      
+                        finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.9f, 0.4f);
                     }
                     else
                     {
-                        if (axisPower <= 1f)
-                        {
-                            if (axisPower <= 0.2f)
-                                axisPower = 0.2f;
-                            axisPower = Mathf.Clamp(axisPower * 1.1f, 0, 1);
-                        }
-
-                        if ((shouldBe.y-lastClampPosition.y) > 0.08f)
+                        
+                        if ((shouldBe.y-lastClampPosition.y) > 0.08f && slope < 10)
                         {
                             finalSpeed = stairClimbingSpeeds;
+                        }
+                        else
+                        {
+                            finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds * 0.9f, 0.4f);
                         }
 
                     }
@@ -405,18 +401,15 @@ public class PlayerMotor : MonoBehaviour {
                     if (!Mathf.Approximately(shouldBe.y, lastClampPosition.y))
                     {
 
-                       if ((lastClampPosition.y - shouldBe.y) > 0.08f)
+                       if ((lastClampPosition.y - shouldBe.y) > 0.08f && slope < 10)
                         {
                             finalSpeed = stairClimbingSpeeds;
                         }
+                       else
+                        {
+                            finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds * 0.9f, 0.4f);
+                        }
 
-                    }
-
-                    if (axisPower <= 1f)
-                    {
-                        if (axisPower <= 0.2f)
-                            axisPower = 0.2f;
-                        axisPower = Mathf.Clamp(axisPower * 1.1f, 0, 1);
                     }
 
                 }
