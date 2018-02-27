@@ -158,7 +158,7 @@ public class PlayerMotor : MonoBehaviour {
         //AXIS POWER for '1'
 
         axisPower = Mathf.Clamp(axisPower, 0, 1);
-        print(axisPower);
+    //    print(axisPower);
 
         f = force;
         f *= axisMovementSpeed*axisPower;
@@ -379,7 +379,14 @@ public class PlayerMotor : MonoBehaviour {
                 {
                     if (slope > slopeLimit)
                     {
-                      
+                        axisPower *= 0.9f;
+
+                        if (axisPower <= 0.1f)
+                        {
+                            currentSlopeModifier += 1 * Time.deltaTime;
+                            transform.position = transform.position - new Vector3(hit.normal.x, 0, hit.normal.z) * (currentSlopeModifier);
+                        }
+
                         finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.9f, 0.4f);
                     }
                     else
@@ -394,13 +401,15 @@ public class PlayerMotor : MonoBehaviour {
                             finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds * 0.9f, 0.4f);
                         }
 
+                        axisPower = Mathf.Clamp01(axisPower + 0.05f);
+                        currentSlopeModifier = 0;
                     }
                 }
                 else
                 {
                     if (!Mathf.Approximately(shouldBe.y, lastClampPosition.y))
                     {
-
+                        
                        if ((lastClampPosition.y - shouldBe.y) > 0.08f && slope < 10)
                         {
                             finalSpeed = stairClimbingSpeeds;
@@ -412,12 +421,14 @@ public class PlayerMotor : MonoBehaviour {
 
                     }
 
+                    axisPower = Mathf.Clamp01(axisPower + 0.05f);
+                    currentSlopeModifier = 0;
                 }
 
                 lastClampPosition = shouldBe;
                 lastClimbSpeed = finalSpeed;
 
-                if (canClimb && axisPower >= 0.2f)
+                if (canClimb)
                 {
                     transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
                     //axisPower = 1f;
