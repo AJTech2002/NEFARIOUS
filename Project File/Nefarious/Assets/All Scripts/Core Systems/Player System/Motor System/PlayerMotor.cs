@@ -102,7 +102,7 @@ public class PlayerMotor : MonoBehaviour {
   
     [HideInInspector]
     public Vector3 f = new Vector3(0,0,0);
-    [HideInInspector]
+    //[HideInInspector]
     public float currentSlopeModifier = 0;
 
     private void LateUpdate()
@@ -229,6 +229,7 @@ public class PlayerMotor : MonoBehaviour {
     Vector3 lastNormal = new Vector3(0, 0, 0);
     float coolDown = 0f;
     float axisPower = 0f;
+    public RaycastHit currentGround;
 
     public void SlopeCalculation (RaycastHit groundPoint) {
 
@@ -239,37 +240,45 @@ public class PlayerMotor : MonoBehaviour {
         //Everytime it is add more pressure to moving upward
         //If maximum pressure threshold is reached then begin sliding downward.
         //Change based on mass
-        axisPower = 1;
+       // axisPower = 1;
         float slope = Vector3.Angle(groundPoint.normal,Vector3.up);
 
         if (lastNormal != groundPoint.normal)
         {
             lastNormal = groundPoint.normal;
+            currentSlopeModifier = 0;
             slopeTimer = 0f;
-            coolDown = 0f;
-            
+            //coolDown = 0f;
+            print("CHANGED GROUND!");
         }
 
+      
 
         if (slope > slopeLimit)
         {
 
-
+            coolDown = 0f;
 
             float percent = (slope / slopeLimit);
+            axisPower = slopeLimit/slope;
 
             Debug.DrawLine(groundPoint.point, groundPoint.point + groundPoint.normal * 5, Color.red, 0.2f);
 
             currentSlopeModifier = (slopeLimitModifier * percent) * slopeTimer;
 
 
-            transform.position = Vector3.Lerp(transform.position, transform.position - new Vector3(groundPoint.normal.x, 0, groundPoint.normal.z) * (currentSlopeModifier), 0.2f);
+            transform.position =  transform.position + new Vector3(groundPoint.normal.x, 0, groundPoint.normal.z) * (currentSlopeModifier) * 0.2f;
 
             slopeTimer += Time.deltaTime * 0.02f;
 
         }
-
-        coolDown += Time.deltaTime;
+        else
+        {
+            axisPower = 1f;
+            slopeTimer = 0f;
+        }
+        
+       // coolDown += Time.deltaTime;
 
     }
 
@@ -369,6 +378,9 @@ public class PlayerMotor : MonoBehaviour {
         //CHECK THE LAST POINT IT CLAMPED TOOO AND IF THIS IS DIST > 0.5 THEN LERP IT BOI (LOWER LERP)
 
         if (Physics.Raycast(ray, out hit, ht, discludePlayer)) {
+
+            currentGround = hit;
+
             if (hit.point.y <= (transform.TransformPoint(liftSpherePoint).y+liftSphereRadius)) {
                 Vector3 shouldBe = new Vector3(transform.position.x, hit.point.y + playerHeight/2, transform.position.z);
                 float slope = Vector3.Angle(hit.normal, Vector3.up);
@@ -379,19 +391,11 @@ public class PlayerMotor : MonoBehaviour {
                 {
                     if (slope > slopeLimit)
                     {
-                        axisPower *= 0.9f;
-
-                        if (axisPower <= 0.1f)
-                        {
-                            currentSlopeModifier += 1 * Time.deltaTime;
-                            transform.position = transform.position - new Vector3(hit.normal.x, 0, hit.normal.z) * (currentSlopeModifier);
-                        }
-
                         finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.9f, 0.4f);
                     }
                     else
                     {
-                        
+                       // currentSlopeModifier = Mathf.Lerp(currentSlopeModifier, 0, Time.deltaTime * 2);
                         if ((shouldBe.y-lastClampPosition.y) > 0.08f && slope < 10)
                         {
                             finalSpeed = stairClimbingSpeeds;
@@ -401,8 +405,8 @@ public class PlayerMotor : MonoBehaviour {
                             finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds * 0.9f, 0.4f);
                         }
 
-                        axisPower = Mathf.Clamp01(axisPower + 0.05f);
-                        currentSlopeModifier = 0;
+                        //axisPower = Mathf.Clamp01(axisPower + 0.05f);
+                        //currentSlopeModifier = 0;
                     }
                 }
                 else
@@ -421,8 +425,9 @@ public class PlayerMotor : MonoBehaviour {
 
                     }
 
-                    axisPower = Mathf.Clamp01(axisPower + 0.05f);
-                    currentSlopeModifier = 0;
+                    //currentSlopeModifier = Mathf.Lerp(currentSlopeModifier, 0, Time.deltaTime * 2);
+                    //axisPower = Mathf.Clamp01(axisPower + 0.05f);
+                   // currentSlopeModifier = 0;
                 }
 
                 lastClampPosition = shouldBe;
@@ -431,6 +436,7 @@ public class PlayerMotor : MonoBehaviour {
                 if (canClimb)
                 {
                     transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
+                   // transform.position = transform.position ;
                     //axisPower = 1f;
                 }
 

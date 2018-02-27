@@ -547,11 +547,11 @@ MonoBehaviour:
   currentMass: 1
   globalMovementSpeed: 0.2
   axisMovementSpeed: 0.2
-  climbingSpeeds: 0.95
-  stairClimbingSpeeds: 0.13
+  climbingSpeeds: 0.38
+  stairClimbingSpeeds: 0.29
   futureGroundCheck: 0.18
   slopeLimit: 55
-  slopeLimitModifier: 1
+  slopeLimitModifier: 2.17
   bumperCollider: {fileID: 765364540}
   bumperSpherePoint: {x: 0, y: 0.5, z: 0}
   bumperSphereRadius: 0.38

@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour {
 
         motor.ClampToGround(transform.TransformDirection(motor.f));
 
+        motor.SlopeCalculation(motor.currentGround);
+
         motor.Jump();
 
 
