@@ -31,6 +31,7 @@ public class PlayerMotor : MonoBehaviour {
     [Header("Slopes")]
     public float futureGroundCheck = 0.01f;
     public float slopeLimit;
+    public float impossibleSlope;
     public float slopeLimitModifier;
 
     [Header("Local Player Points")]
@@ -230,7 +231,9 @@ public class PlayerMotor : MonoBehaviour {
     float coolDown = 0f;
     float axisPower = 0f;
     public RaycastHit currentGround;
-
+    private bool lastGroundWasSlope;
+    private RaycastHit lastSlope;
+    private float lastTimer;
     public void SlopeCalculation (RaycastHit groundPoint) {
 
         //TODO: Add warm down timer so slope continues to slide
@@ -242,43 +245,24 @@ public class PlayerMotor : MonoBehaviour {
         //Change based on mass
        // axisPower = 1;
         float slope = Vector3.Angle(groundPoint.normal,Vector3.up);
+        Vector3 hitNormal = groundPoint.normal;
 
-        if (lastNormal != groundPoint.normal)
+        bool isGrounded = (Vector3.Angle(Vector3.up, hitNormal) <= slopeLimit);
+
+        if (!isGrounded)
         {
-            lastNormal = groundPoint.normal;
-            currentSlopeModifier = 0;
-            slopeTimer = 0f;
-            //coolDown = 0f;
-            print("CHANGED GROUND!");
-        }
-
-      
-
-        if (slope > slopeLimit)
-        {
-
-            coolDown = 0f;
-
-            float percent = (slope / slopeLimit);
-            axisPower = slopeLimit/slope;
-
-            Debug.DrawLine(groundPoint.point, groundPoint.point + groundPoint.normal * 5, Color.red, 0.2f);
-
-            currentSlopeModifier = (slopeLimitModifier * percent) * slopeTimer;
-
-
-            transform.position =  transform.position + new Vector3(groundPoint.normal.x, 0, groundPoint.normal.z) * (currentSlopeModifier) * 0.2f;
-
-            slopeTimer += Time.deltaTime * 0.02f;
-
+            Vector3 moveDirection = new Vector3(hitNormal.x, -hitNormal.y, hitNormal.z);
+            Vector3.OrthoNormalize(ref hitNormal, ref moveDirection);
+            moveDirection *= 0.01f+slopeTimer;
+            transform.position += moveDirection*0.1f;
+            axisPower = 0.3f;
+            slopeTimer += Time.deltaTime;
         }
         else
         {
-            axisPower = 1f;
             slopeTimer = 0f;
+            axisPower = 1f;
         }
-        
-       // coolDown += Time.deltaTime;
 
     }
 
@@ -391,7 +375,7 @@ public class PlayerMotor : MonoBehaviour {
                 {
                     if (slope > slopeLimit)
                     {
-                        finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.9f, 0.4f);
+                        finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.9f, 0.2f);
                     }
                     else
                     {
@@ -435,7 +419,8 @@ public class PlayerMotor : MonoBehaviour {
 
                 if (canClimb)
                 {
-                    transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
+                  
+                 transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
                    // transform.position = transform.position ;
                     //axisPower = 1f;
                 }
@@ -508,3 +493,100 @@ public class PlayerMotor : MonoBehaviour {
 
 
 }
+
+
+/* SLOPE CONTROLLER PREVIOS
+ * 
+ *  if (lastNormal != groundPoint.normal)
+        {
+            lastNormal = groundPoint.normal;
+            currentSlopeModifier = 0;
+            slopeTimer = 0f;
+            if (slope > slopeLimit && lastGroundWasSlope)
+            {
+                lastGroundWasSlope = true;
+                lastSlope = groundPoint;
+                coolDown = 0f;
+                axisPower = 0.1f;
+            }
+            else
+            {
+                axisPower = 1f;
+            }
+        }
+
+       
+
+        if (slope <= slopeLimit && lastGroundWasSlope && coolDown <= 0f)
+        {
+            coolDown = 0.5f;
+            slopeTimer = 0.34f;
+            axisPower = 0.2f;
+        }
+      
+
+        if (coolDown >= -0.1f)
+        {
+            coolDown -= Time.deltaTime;
+        }
+        
+
+        if (slope <= slopeLimit && coolDown > 0f && lastGroundWasSlope)
+        {
+            axisPower += Time.deltaTime * 0.5f;
+            slope = Vector3.Angle(lastSlope.normal, Vector3.up);
+            float percent = (slope / slopeLimit);
+           
+
+            Debug.DrawLine(lastSlope.point, lastSlope.point + lastSlope.normal * 5, Color.red, 0.2f);
+
+            currentSlopeModifier = (1.2f * percent) * slopeTimer;
+
+
+            transform.position = Vector3.Lerp(transform.position,transform.position + new Vector3(lastSlope.normal.x, 0, lastSlope.normal.z) * (currentSlopeModifier) * 0.2f,0.5f);
+
+            slopeTimer -= Time.deltaTime * 0.5f;
+            
+            
+        }
+        else
+        {
+            if (slope > slopeLimit && coolDown <= 0f)
+            {
+
+                coolDown = 0f;
+                slopeTimer += Time.deltaTime * 0.02f;
+                float percent = (slope / slopeLimit);
+                axisPower = 1f;
+
+                Debug.DrawLine(groundPoint.point, groundPoint.point + groundPoint.normal * 5, Color.red, 0.2f);
+
+                currentSlopeModifier = (slopeLimitModifier * percent) * slopeTimer;
+
+                //if (currentSlopeModifier > 0.05f)
+                transform.position = transform.position + new Vector3(groundPoint.normal.x, 0, groundPoint.normal.z) * (currentSlopeModifier) * 0.2f;
+
+                slopeTimer += Time.deltaTime * 0.02f;
+                lastSlope = groundPoint;
+                lastTimer = slopeTimer;
+                lastGroundWasSlope = true;
+            }
+            else
+            {
+                lastGroundWasSlope = false;
+                axisPower = 1f;
+                slopeTimer = 0f;
+            }
+        }
+
+
+
+        if (coolDown < 0 && lastGroundWasSlope)
+        {
+            lastGroundWasSlope = false;
+            coolDown = 0f;
+            axisPower = 1f;
+        }
+
+
+    */

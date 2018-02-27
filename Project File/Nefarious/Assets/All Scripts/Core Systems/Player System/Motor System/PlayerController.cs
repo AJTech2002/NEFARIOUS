@@ -22,9 +22,12 @@ public class PlayerController : MonoBehaviour {
 
         motor.CalculateCollisions();
 
-        motor.ClampToGround(transform.TransformDirection(motor.f));
 
         motor.SlopeCalculation(motor.currentGround);
+
+        motor.ClampToGround(transform.TransformDirection(motor.f));
+
+      
 
         motor.Jump();
 
