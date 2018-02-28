@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour {
 
         motor.SlopeCalculation(motor.currentGround);
 
+        motor.CorridorDetection();
+
         motor.ClampToGround(transform.TransformDirection(motor.f));
 
       

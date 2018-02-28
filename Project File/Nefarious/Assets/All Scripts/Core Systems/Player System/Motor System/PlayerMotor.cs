@@ -34,6 +34,11 @@ public class PlayerMotor : MonoBehaviour {
     public float impossibleSlope;
     public float slopeLimitModifier;
 
+    [Header("Collision Attributes")]
+    public Vector3 topCapsulePoint;
+    public Vector3 bottomCapsulePoint;
+    public float capsuleRadius;
+
     [Header("Local Player Points")]
     [Header("Bumper Sphere")]
     public SphereCollider bumperCollider;
@@ -95,6 +100,11 @@ public class PlayerMotor : MonoBehaviour {
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.TransformPoint(liftSpherePoint),liftSphereRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.TransformPoint(topCapsulePoint), capsuleRadius);
+        Gizmos.DrawWireSphere(transform.TransformPoint(bottomCapsulePoint), capsuleRadius);
+
 
     }
 
@@ -162,11 +172,14 @@ public class PlayerMotor : MonoBehaviour {
     //    print(axisPower);
 
         f = force;
-        f *= axisMovementSpeed*axisPower;
-
 
         if (f != Vector3.zero)
             lastMovement = f;
+
+        f *= axisMovementSpeed*axisPower;
+
+
+      
 
        // f = CorridorDetection(lastMovement);
 
@@ -269,53 +282,23 @@ public class PlayerMotor : MonoBehaviour {
     private bool colliding = false;
     private Vector3 lastMovement;
 
-    private Vector3 CorridorDetection (Vector3 movement) {
+    public void CorridorDetection () {
 
-        if (colliding)
-        {
-            //Make sure corridors are detected and the closer we get to stopping the slower we get
-            //Make sure we are not clamping towards the ground...
-
-            Vector3 crossedVectorR = Vector3.Cross(transform.TransformDirection(movement), transform.up);
-            Vector3 crossedVectorL = -crossedVectorR;
-
-            Ray rayR = new Ray(transform.position+transform.TransformDirection(movement), transform.TransformDirection(crossedVectorR));
-            RaycastHit hit;
-
-
-            Vector3 rP = transform.position+rayR.direction;
-            
-
-            if (Physics.Raycast(rayR, out hit, bumperSphereRadius * 5, discludePlayer))
+        RaycastHit hit;
+        if (Physics.CapsuleCast(transform.TransformPoint(topCapsulePoint),transform.TransformPoint(bottomCapsulePoint),capsuleRadius, transform.TransformDirection(lastMovement),out hit, 5,discludePlayer)) {
+            if (hit.distance <= capsuleRadius * capsuleRadius)
             {
-                rP = hit.point; Debug.DrawLine(transform.position, hit.point);
-
+                axisPower = 0.5f;
             }
-
-            Ray rayL = new Ray(transform.position + transform.TransformDirection(movement), transform.TransformDirection(crossedVectorL));
-            RaycastHit hitL;
-
-            Vector3 lP = transform.position + rayL.direction;
-            //  Debug.DrawLine(transform.position, transform.position + rayL.direction * (bumperCollider.radius + 0.1f));
-            if (Physics.Raycast(rayL, out hitL, bumperSphereRadius * 5, discludePlayer))
+            else
             {
-                lP = hit.point; Debug.DrawLine(transform.position, hitL.point);
+                axisPower = 1f;
             }
-            // print(Vector3.Distance(rP, lP));
-
-    
-
-            if (Vector3.Distance(lP,rP) < 0.05f)
-            {
-
-                print(Vector3.Distance(lP, rP));
-                return movement * (Vector3.Distance(rP, lP));
-                
-            }
-
         }
-
-        return movement;
+        else
+        {
+            axisPower = 1f;
+        }
 
     }
 
@@ -375,6 +358,10 @@ public class PlayerMotor : MonoBehaviour {
                 {
                     if (slope > slopeLimit)
                     {
+                        if (slope > impossibleSlope)
+                        {
+                            axisPower -= 0.5f;
+                        }
                         finalSpeed = Mathf.Lerp(finalSpeed, climbingSpeeds*0.9f, 0.2f);
                     }
                     else
