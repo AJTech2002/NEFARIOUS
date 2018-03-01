@@ -64,6 +64,7 @@ public class PlayerMotor : MonoBehaviour {
 
     [Header("States")]
     public bool grounded;
+    private bool slippingDownSlope = false;
     public enum PlayerState {GroundedMoving, SlidingSlope, Jumping, FixingError, AbsoluteStill, CollisionMoving};
 
 
@@ -215,7 +216,7 @@ public class PlayerMotor : MonoBehaviour {
             fallMultiplier = -1;
         }
 
-        if (grounded && canJump) {
+        if (grounded && canJump && !slippingDownSlope) {
 
             if (Input.GetKeyDown(KeyCode.Space)){
                 inputJump = true;
@@ -270,9 +271,14 @@ public class PlayerMotor : MonoBehaviour {
             transform.position += moveDirection*0.1f;
             axisPower = 0.3f;
             slopeTimer += Time.deltaTime;
+
+            slippingDownSlope = true;
+
         }
         else
         {
+
+            slippingDownSlope = false;
             slopeTimer = 0f;
             axisPower = 1f;
         }
@@ -282,12 +288,14 @@ public class PlayerMotor : MonoBehaviour {
     private bool colliding = false;
     private Vector3 lastMovement;
 
+    private bool slippingThroughGap = false;
     public void CorridorDetection () {
 
         RaycastHit hit;
         if (Physics.CapsuleCast(transform.TransformPoint(topCapsulePoint),transform.TransformPoint(bottomCapsulePoint),capsuleRadius, transform.TransformDirection(lastMovement),out hit, 5,discludePlayer)) {
             if (hit.distance <= capsuleRadius * capsuleRadius)
             {
+
                 axisPower = 0.5f;
             }
             else
@@ -406,7 +414,14 @@ public class PlayerMotor : MonoBehaviour {
 
                 if (canClimb)
                 {
-                  
+                  if ((hit.point-transform.position).y < 0)
+                    {
+                        if (hit.distance > playerHeight)
+                        {
+                            grounded = false;
+                            return;
+                        }
+                    }
                  transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
                    // transform.position = transform.position ;
                     //axisPower = 1f;
