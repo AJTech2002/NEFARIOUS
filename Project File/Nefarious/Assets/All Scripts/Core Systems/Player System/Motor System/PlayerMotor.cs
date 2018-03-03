@@ -26,6 +26,7 @@ public class PlayerMotor : MonoBehaviour {
     public float globalMovementSpeed;
     public float axisMovementSpeed;
     public float climbingSpeeds;
+    public float interpolationSpeed;
     public float stairClimbingSpeeds = 0.2f;
 
     [Header("Slopes")]
@@ -90,6 +91,7 @@ public class PlayerMotor : MonoBehaviour {
         axisPower = 1f;
     }
 
+    #region Gizmos
     private void OnDrawGizmos()
     {
      
@@ -108,23 +110,18 @@ public class PlayerMotor : MonoBehaviour {
 
 
     }
+    #endregion
 
+    #region Gravity
     //Everything will be placed here properly
     //Using multithreading to make different events like Collisoin and Error Checking work together :)
-  
+
     [HideInInspector]
     public Vector3 f = new Vector3(0,0,0);
     //[HideInInspector]
     public float currentSlopeModifier = 0;
 
-    private void LateUpdate()
-    {
-        //Run Final Movement + Gravity Amongst other neccesities.. 
-
-
-
-    }
-
+    
     private float cGravMultiplier;
     //Change based on mass
     //TODO: If the ground is only a little bit below then decrease the gravity.
@@ -139,6 +136,9 @@ public class PlayerMotor : MonoBehaviour {
         }
     }
 
+    #endregion
+
+    #region Final Movement
 
     public void FinalMovement()
     {
@@ -156,6 +156,9 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
+    #endregion
+
+    #region Add Force
 
     public void AddForce(Vector3 force) {
 
@@ -193,9 +196,13 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
+    #endregion
+
+    #region Jumping
+
     private bool inputJump;
     bool canJump = false;
-    private float fallMultiplier;
+    private float fallMultiplier = -1f;
     private float jumpHeight;
 
     public void Jump () {
@@ -211,9 +218,15 @@ public class PlayerMotor : MonoBehaviour {
         canJump = !Physics.Raycast (new Ray (transform.position, Vector3.up), playerHeight, discludePlayer);
 
         if (grounded && jumpHeight > 0.2f || jumpHeight <= 0.2f && grounded) {
+            if (inputJump)
+            {
+                
+            }
+
             jumpHeight = 0;
             inputJump = false;
             fallMultiplier = -1;
+
         }
 
         if (grounded && canJump && !slippingDownSlope) {
@@ -238,6 +251,10 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
+    #endregion
+
+    #region Slope Calculation
+
     //SLOPE MODIFICATION VARIABLES
 
     float slopeTimer = 0f;
@@ -248,6 +265,7 @@ public class PlayerMotor : MonoBehaviour {
     private bool lastGroundWasSlope;
     private RaycastHit lastSlope;
     private float lastTimer;
+
     public void SlopeCalculation (RaycastHit groundPoint) {
 
         //TODO: Add warm down timer so slope continues to slide
@@ -269,22 +287,29 @@ public class PlayerMotor : MonoBehaviour {
             Vector3.OrthoNormalize(ref hitNormal, ref moveDirection);
             moveDirection *= 0.01f+slopeTimer;
             transform.position += moveDirection*0.1f;
-            axisPower = 0.3f;
+            axisPower = 0F;
             slopeTimer += Time.deltaTime;
 
             slippingDownSlope = true;
 
+            coolDown = 0.13f;
+
         }
         else
         {
-
+          //  coolDown -= Time.deltaTime;
+         
             slippingDownSlope = false;
             slopeTimer = 0f;
             axisPower = 1f;
+            
         }
 
     }
 
+    #endregion
+
+    #region Corridor Detection Kinda
     private bool colliding = false;
     private Vector3 lastMovement;
 
@@ -310,14 +335,9 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
-    private void CalculateGround (Vector3 position) {
-        /*Shoot a ray from forward point downwards
-        //Check groundedness based on ray and sphere check in area
-        //Check the state to make sure you can be grounded*/
+    #endregion
 
-
-
-    }
+    #region ClampToGround (IMPORTANT)
 
     //TODO : Change to just a RayCast
     //TODO : Use the step height to calculate weather you can climb up... or collide script activate :)
@@ -416,14 +436,28 @@ public class PlayerMotor : MonoBehaviour {
                 {
                   if ((hit.point-transform.position).y < 0)
                     {
-                        if (hit.distance > playerHeight)
+                        if (hit.distance > 2.5f)
                         {
+                          //  Vector3 mP2 = new Vector3(transform.position.x, transform.position.y - playerHeight / 2, transform.position.z);
+                           // Vector3 dir2 = shouldBe - mP2;
+                           // transform.position = Vector3.Lerp(transform.position, transform.position + (dir2 * finalSpeed), interpolationSpeed);
                             grounded = false;
                             return;
                         }
                     }
-                 transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
-                   // transform.position = transform.position ;
+               //  transform.position = Vector3.Lerp(transform.position, shouldBe, finalSpeed);
+                Vector3 mP = new Vector3(transform.position.x, transform.position.y - playerHeight / 2, transform.position.z);
+                Vector3 dir = shouldBe - mP;
+
+                    if (inputJump)
+                    {
+                        finalSpeed = 1f;
+                        transform.position = Vector3.Lerp(transform.position, transform.position + (dir * finalSpeed), interpolationSpeed);
+                    }
+                    else
+                    {
+                        transform.position = Vector3.Lerp(transform.position, transform.position + (dir * finalSpeed), interpolationSpeed);
+                    }
                     //axisPower = 1f;
                 }
 
@@ -438,6 +472,10 @@ public class PlayerMotor : MonoBehaviour {
         }
 
     }
+
+    #endregion
+
+    #region Collision Calculation
 
     public void CalculateCollisions() {
         //Prevent going through the ground
@@ -480,6 +518,10 @@ public class PlayerMotor : MonoBehaviour {
 
     }
 
+    #endregion
+
+    #region Error Calculatoin
+
     //Done after the final movement stage
     private void ErrorCalculation() {
         //Check if the player is stuck
@@ -492,103 +534,7 @@ public class PlayerMotor : MonoBehaviour {
     #endregion
 
 
-
+    #endregion 
 
 }
 
-
-/* SLOPE CONTROLLER PREVIOS
- * 
- *  if (lastNormal != groundPoint.normal)
-        {
-            lastNormal = groundPoint.normal;
-            currentSlopeModifier = 0;
-            slopeTimer = 0f;
-            if (slope > slopeLimit && lastGroundWasSlope)
-            {
-                lastGroundWasSlope = true;
-                lastSlope = groundPoint;
-                coolDown = 0f;
-                axisPower = 0.1f;
-            }
-            else
-            {
-                axisPower = 1f;
-            }
-        }
-
-       
-
-        if (slope <= slopeLimit && lastGroundWasSlope && coolDown <= 0f)
-        {
-            coolDown = 0.5f;
-            slopeTimer = 0.34f;
-            axisPower = 0.2f;
-        }
-      
-
-        if (coolDown >= -0.1f)
-        {
-            coolDown -= Time.deltaTime;
-        }
-        
-
-        if (slope <= slopeLimit && coolDown > 0f && lastGroundWasSlope)
-        {
-            axisPower += Time.deltaTime * 0.5f;
-            slope = Vector3.Angle(lastSlope.normal, Vector3.up);
-            float percent = (slope / slopeLimit);
-           
-
-            Debug.DrawLine(lastSlope.point, lastSlope.point + lastSlope.normal * 5, Color.red, 0.2f);
-
-            currentSlopeModifier = (1.2f * percent) * slopeTimer;
-
-
-            transform.position = Vector3.Lerp(transform.position,transform.position + new Vector3(lastSlope.normal.x, 0, lastSlope.normal.z) * (currentSlopeModifier) * 0.2f,0.5f);
-
-            slopeTimer -= Time.deltaTime * 0.5f;
-            
-            
-        }
-        else
-        {
-            if (slope > slopeLimit && coolDown <= 0f)
-            {
-
-                coolDown = 0f;
-                slopeTimer += Time.deltaTime * 0.02f;
-                float percent = (slope / slopeLimit);
-                axisPower = 1f;
-
-                Debug.DrawLine(groundPoint.point, groundPoint.point + groundPoint.normal * 5, Color.red, 0.2f);
-
-                currentSlopeModifier = (slopeLimitModifier * percent) * slopeTimer;
-
-                //if (currentSlopeModifier > 0.05f)
-                transform.position = transform.position + new Vector3(groundPoint.normal.x, 0, groundPoint.normal.z) * (currentSlopeModifier) * 0.2f;
-
-                slopeTimer += Time.deltaTime * 0.02f;
-                lastSlope = groundPoint;
-                lastTimer = slopeTimer;
-                lastGroundWasSlope = true;
-            }
-            else
-            {
-                lastGroundWasSlope = false;
-                axisPower = 1f;
-                slopeTimer = 0f;
-            }
-        }
-
-
-
-        if (coolDown < 0 && lastGroundWasSlope)
-        {
-            lastGroundWasSlope = false;
-            coolDown = 0f;
-            axisPower = 1f;
-        }
-
-
-    */
