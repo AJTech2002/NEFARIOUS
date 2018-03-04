@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
     float xPerc = 0f;
     float yPerc = 0f;
     Vector3 input;
-    private void Update()
+    private void FixedUpdate()
     {
        xPerc = Mathf.Lerp(xPerc,Input.GetAxisRaw("Horizontal"),inputBurnout*Time.deltaTime);
        yPerc = Mathf.Lerp(yPerc, Input.GetAxisRaw("Vertical"), inputBurnout*Time.deltaTime);
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 
         motor.AddForce(input);
 
-        motor.Gravity();
+        
 
 
         motor.FinalMovement();
@@ -40,12 +40,17 @@ public class PlayerController : MonoBehaviour {
         motor.CorridorDetection();
 
 
-
+    
 
         motor.ClampToGround(transform.TransformDirection(motor.f));
 
+        //motor.GroundCheck();
+
+        motor.Gravity();
+
         motor.Jump();
 
+        
 
 
     }

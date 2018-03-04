@@ -82,6 +82,8 @@ public class PlayerMotor : MonoBehaviour {
     #endregion
 
 
+    //TODO : Make sure that jump is based on time that you hold the jump.....
+
     //TODO : READ ALL COMMENTS!
 
     #region Code
@@ -94,20 +96,21 @@ public class PlayerMotor : MonoBehaviour {
     #region Gizmos
     private void OnDrawGizmos()
     {
-     
-        Gizmos.color = Color.black;
-        Gizmos.DrawSphere((transform.position) + (transform.up/2+(transform.forward*futureGroundCheck)),0.02f);
+        if (displayGizmos)
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawSphere((transform.position) + (transform.up / 2 + (transform.forward * futureGroundCheck)), 0.02f);
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.TransformPoint(bumperSpherePoint),bumperSphereRadius);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.TransformPoint(bumperSpherePoint), bumperSphereRadius);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.TransformPoint(liftSpherePoint),liftSphereRadius);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.TransformPoint(liftSpherePoint), liftSphereRadius);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.TransformPoint(topCapsulePoint), capsuleRadius);
-        Gizmos.DrawWireSphere(transform.TransformPoint(bottomCapsulePoint), capsuleRadius);
-
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.TransformPoint(topCapsulePoint), capsuleRadius);
+            Gizmos.DrawWireSphere(transform.TransformPoint(bottomCapsulePoint), capsuleRadius);
+        }
 
     }
     #endregion
