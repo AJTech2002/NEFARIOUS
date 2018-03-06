@@ -294,8 +294,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\All Scripts\Core Systems\Player System\Camera System\CameraController.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\Player System\Camera System\FPSCamera.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\Player System\Motor System\CameraController.cs" />
+    <Compile Include="Assets\All Scripts\Core Systems\Player System\Motor System\MouseAimCamera.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\Player System\Motor System\PlayerController.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\Player System\Motor System\PlayerMotor.cs" />
     <Compile Include="Assets\Editor Systems\Dialogue\Classes\DNodeClass.cs" />

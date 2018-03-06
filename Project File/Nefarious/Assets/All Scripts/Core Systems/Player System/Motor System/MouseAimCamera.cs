@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController01 : MonoBehaviour {
+/// <summary>
+/// 
+/// This video you will be :
+/// Simple movement
+/// Writing the camera controller
+/// Writing the slope control, gravity, collision, 
+/// </summary>
+
+public class MouseAimCamera : MonoBehaviour {
 
 	public bool lockCursor;
 	public float mouseSensitivity = 10;
 	public Transform target;
-	public float distFromTarget = 2;
-	public Vector2 pitchMinMax = new Vector2(-40,85);
+	public float dstFromTarget = 2;
+	public Vector2 pitchMinMax = new Vector2 (-40, 85);
 
 	public float rotationSmoothTime = .12f;
 	Vector3 rotationSmoothVelocity;
@@ -17,29 +25,25 @@ public class CameraController01 : MonoBehaviour {
 	float yaw;
 	float pitch;
 
-	private void Start() {
+	void Start() {
 		if (lockCursor) {
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
 		}
 	}
 
-	private void LateUpdate() {
+	void LateUpdate () {
 		yaw += Input.GetAxis ("Mouse X") * mouseSensitivity;
 		pitch -= Input.GetAxis ("Mouse Y") * mouseSensitivity;
 		pitch = Mathf.Clamp (pitch, pitchMinMax.x, pitchMinMax.y);
 
 		currentRotation = Vector3.SmoothDamp (currentRotation, new Vector3 (pitch, yaw), ref rotationSmoothVelocity, rotationSmoothTime);
 		transform.eulerAngles = currentRotation;
-
-		Vector3 e = transform.eulerAngles;
-		e.x = 0;
-
-		target.eulerAngles = e;
-		transform.position = target.position - transform.forward * distFromTarget;
-
-
+        Vector3 e = transform.eulerAngles;
+        e.x = 0;
+        target.eulerAngles = e;
+		transform.position = target.position - transform.forward * dstFromTarget;
 
 	}
-
 }
+
