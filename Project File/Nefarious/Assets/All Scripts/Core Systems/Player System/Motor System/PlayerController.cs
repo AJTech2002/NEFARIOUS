@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
         motor.AddForce(input);
 
         
-
+        motor.Gravity();
 
         motor.FinalMovement();
 
@@ -44,9 +44,9 @@ public class PlayerController : MonoBehaviour {
 
         motor.ClampToGround(transform.TransformDirection(motor.f));
 
-        //motor.GroundCheck();
+     //   motor.GroundCheck();
 
-        motor.Gravity();
+
 
         motor.Jump();
 

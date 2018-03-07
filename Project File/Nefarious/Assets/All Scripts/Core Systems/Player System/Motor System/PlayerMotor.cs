@@ -216,9 +216,10 @@ public class PlayerMotor : MonoBehaviour {
         //Change based on mass
 
 
+        bool roofAbove = !Physics.Raycast (new Ray (transform.position, Vector3.up), playerHeight, discludePlayer);
+        bool checkGrounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - playerHeight/2, transform.position.z), 0.25f, discludePlayer);
 
-
-        canJump = !Physics.Raycast (new Ray (transform.position, Vector3.up), playerHeight, discludePlayer);
+        canJump = (roofAbove && checkGrounded);
 
         if (grounded && jumpHeight > 0.2f || jumpHeight <= 0.2f && grounded) {
             if (inputJump)
@@ -270,10 +271,7 @@ public class PlayerMotor : MonoBehaviour {
     private float lastTimer;
 
     public void SlopeCalculation (RaycastHit groundPoint) {
-
-        //TODO: Add warm down timer so slope continues to slide
-        //TOOD: Also make sure the normal is transformed to be in local sapce
-
+        
         //Check if slope is too high
         //Everytime it is add more pressure to moving upward
         //If maximum pressure threshold is reached then begin sliding downward.
