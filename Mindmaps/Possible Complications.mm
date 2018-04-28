@@ -1,7 +1,9 @@
 <map version="1.0.1">
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
 <node CREATED="1523551435019" ID="ID_575210695" MODIFIED="1523551693240" TEXT="Possible Complications">
-<node CREATED="1523551457944" ID="ID_888565793" MODIFIED="1523551462847" POSITION="right" TEXT="Kidnappings"/>
+<node CREATED="1523551457944" ID="ID_888565793" MODIFIED="1523551462847" POSITION="right" TEXT="Kidnappings">
+<node CREATED="1524689884931" ID="ID_1122475466" MODIFIED="1524689948656" TEXT="A bandit king kidnaps your friend in order to force you to give him money which he takes"/>
+</node>
 <node CREATED="1523551463835" ID="ID_1030498419" MODIFIED="1523551467879" POSITION="left" TEXT="Bosses"/>
 <node CREATED="1523551468931" ID="ID_460904874" MODIFIED="1523551484375" POSITION="right" TEXT="Thieves "/>
 <node CREATED="1523551486275" ID="ID_1081471136" MODIFIED="1523551491135" POSITION="left" TEXT="Assasins"/>
