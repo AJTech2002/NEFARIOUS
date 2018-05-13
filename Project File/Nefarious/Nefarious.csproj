@@ -299,6 +299,7 @@
     <Compile Include="Assets\Editor Systems\Dialogue\Classes\NodeEditorDat.cs" />
     <Compile Include="Assets\Editor Systems\Dialogue\Classes\NodeGUIDat.cs" />
     <Compile Include="Assets\Editor Systems\Dialogue\Classes\NodeSerialization.cs" />
+    <Compile Include="Assets\Editor Systems\Management Tools\Classes\ProjectManagementClasses.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\All Scripts\Core Scripts\INCLUDES.txt" />
