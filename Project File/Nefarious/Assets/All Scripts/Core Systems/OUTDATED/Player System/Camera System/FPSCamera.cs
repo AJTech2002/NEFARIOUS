@@ -14,6 +14,7 @@ public class FPSCamera : MonoBehaviour {
 	public Vector3 cameraOffset;
 	public float followSpeed;
 	public float lookSpeed;
+    public float maxMovementBeforeLerp;
 
 	[Header("Look Rotation")]
 	public float xSpeed;
@@ -30,6 +31,7 @@ public class FPSCamera : MonoBehaviour {
 		if (justOffset)
 			p = playerTransform.position + cameraOffset;
 		//transform.position = Vector3.Lerp (transform.position, p, followSpeed*Time.deltaTime);
+        
 		transform.position = p;
 		if (!justOffset) {
 			mouseX += Input.GetAxis ("Mouse X") * xSpeed;
