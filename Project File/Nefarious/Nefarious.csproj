@@ -291,6 +291,9 @@
     <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Camera System\CameraController.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Camera System\FPSCamera.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Motor System\CameraController.cs" />
+    <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Motor System\MainController\Controller.cs" />
+    <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Motor System\MainController\LedgeController.cs" />
+    <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Motor System\MainController\Motor.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Motor System\MouseAimCamera.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Motor System\PlayerController.cs" />
     <Compile Include="Assets\All Scripts\Core Systems\OUTDATED\Player System\Motor System\PlayerMotor.cs" />
@@ -300,7 +303,6 @@
     <Compile Include="Assets\Editor Systems\Dialogue\Classes\NodeGUIDat.cs" />
     <Compile Include="Assets\Editor Systems\Dialogue\Classes\NodeSerialization.cs" />
     <Compile Include="Assets\Editor Systems\Management Tools\Classes\ProjectManagementClasses.cs" />
-    <Compile Include="Assets\Motor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\All Scripts\Core Scripts\INCLUDES.txt" />
