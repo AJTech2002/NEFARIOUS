@@ -11,16 +11,18 @@ public class Motor : MonoBehaviour {
 
     [Header("Slope Options")]
     public float maxSlope;
-    public float minSlope;
+    public float maxSlippingSlope;
     public float slopeMultipler;
 
     [Header("General Options")]
     public float playerHeight;
     public float globalSpeed;
     public float liftCutoff;
+    public float maxCollisionSlopeCheck;
 
     [Header("Physics/Collisions")]
     public LayerMask discludePlayerMask;
+    public LayerMask discludeMinimumSlopes;
     public float simulatedGravity;
 
     [Header("LiftOptions")]
@@ -57,8 +59,7 @@ public class Motor : MonoBehaviour {
     public bool grounded;
     [HideInInspector]
     public bool sphereGrounded;
-    [HideInInspector]
-    public float axisPower=1f;
+
 
     //CONTROL OPTIONS
     public Controller externalController;
@@ -82,6 +83,11 @@ public class Motor : MonoBehaviour {
             IdentifyGround();
 
 
+            
+
+            Jump(false);
+
+            
             FakeInput();
             SlipDownSlope();
 
@@ -92,6 +98,8 @@ public class Motor : MonoBehaviour {
             }
 
             // SlopeCalculation();
+
+            
 
             CalculateRawMovement();
         }
@@ -105,7 +113,7 @@ public class Motor : MonoBehaviour {
     private void Update()
     {
         if (!externalControl)
-            Jump();
+            Jump(true);
         else
             externalController.ExternalUpdate();
         
@@ -184,52 +192,95 @@ public class Motor : MonoBehaviour {
     private Vector3 lastNorm2;
     public void SlipDownSlope()
     {
-        Ray ray = new Ray(topPoint(), -transform.up);
-        RaycastHit hit;
         
-        if (Physics.SphereCast(ray, liftSphereRadius/2, out hit, maxDropDist, discludePlayerMask))
+        
+        
+        Ray ray = new Ray(bottomPoint()+new Vector3(0,liftCutoff),transform.TransformDirection(finalVelocity));
+        RaycastHit hit;
+
+      
+
+        if (Physics.Raycast(ray, out hit, maxCollisionSlopeCheck, discludeMinimumSlopes))
         {
+            if (hit.transform.CompareTag("ControllerObject"))
+                return;
+
             float slope = Vector3.Angle(hit.normal, Vector3.up);
-
+            Vector3 hitNormal = hit.normal;
+            Vector3 moveDirection = new Vector3(hitNormal.x, -hitNormal.y * 0.5f, hitNormal.z);
          
-
             if (slope > maxSlope)
             {
-
-                //axisPower = 0.1f;
-                
-                Vector3 hitNormal = hit.normal;
-                lastNorm2 = hitNormal;
-                Vector3 moveDirection = new Vector3(hitNormal.x, -hitNormal.y*0.5f, hitNormal.z);
-                //   Vector3.OrthoNormalize(ref hitNormal, ref moveDirection);
-
-                moveDirection *= 0.01f + timeOnSlope;
-                if (cPS != PlayerState.Jumping)
+                if (currentGround.transform == hit.transform && currentGround.normal == hit.normal || cPS == PlayerState.Jumping)
                 {
-                   // finalVelocity *= 0.1f;
-                    transform.position += moveDirection * 0.15f;
-                    cPS = PlayerState.Slipping;
+                    
+                   
                 }
-
-                lastNorm = moveDirection * 0.15f;
-                timeOnSlope += Time.deltaTime;
+                else
+                {
+                    if (hit.distance <= 1.5f)
+                    {
+                        finalVelocity *= Mathf.Clamp01(hit.distance-0.5f);
+                       // axisPower = hit.distance;
+                        
+                    }
+                    
+                }
+                //Debug.DrawRay(ray.origin, ray.direction, Color.red, 0.5f);
+            }
+            else
+            {
+              
                 
-                coolDown = 0.23f;
             }
 
+        }
+        else
+        {
+     
+        }
+
+
+        Ray sphereRay = new Ray(topPoint(), -transform.up);
+        RaycastHit curGround;
+
+        if (Physics.SphereCast(sphereRay, 0.5f, out curGround, 5f, discludeMinimumSlopes))
+        {
+            if (curGround.transform.CompareTag("ControllerObject"))
+                return;
+            float currentSlope = Vector3.Angle(curGround.normal, Vector3.up);
+            if (currentSlope > maxSlope && currentSlope < maxSlippingSlope)
+            {
+                if (cPS != PlayerState.Jumping)
+                {
+                    cPS = PlayerState.Slipping;
+
+                    Vector3 hitNormal = curGround.normal;
+                    Vector3 moveDirection = new Vector3(hitNormal.x, -hitNormal.y * 0.5f, hitNormal.z);
+                    moveDirection *= 0.04f + timeOnSlope;
+
+                    transform.position += moveDirection * 0.15f;
+                    cPS = PlayerState.Slipping;
+
+                    lastNorm = moveDirection * 0.15f;
+                    timeOnSlope += Time.deltaTime;
+
+                    coolDown = 0.23f;
+
+                }
+            }
             else
             {
                 if (coolDown == 0.23f)
                 {
                     coolDown = 0f;
                     cPS = PlayerState.Walking;
-                    transform.position += lastNorm*2;
+                    lastNorm.y = 0;
+                    //transform.position += lastNorm * 2;
                     timeOnSlope = 0f;
                     lastNorm = Vector3.zero;
                 }
-
             }
-
 
         }
         else
@@ -237,10 +288,7 @@ public class Motor : MonoBehaviour {
             if (cPS == PlayerState.Slipping)
                 cPS = PlayerState.Walking;
         }
-
-      
-
-    }
+  }
 
     #endregion
 
@@ -264,47 +312,51 @@ public class Motor : MonoBehaviour {
     private float startY;
     private bool activado = false;
     private bool isjumping;
-    public void Jump()
+    public void Jump(bool isUpdate)
     {
 
-        if (Input.GetKeyDown(KeyCode.Space) && (grounded || sphereGrounded) && cPS != PlayerState.Slipping)
+        if (isUpdate)
         {
-
-            cPS = PlayerState.Jumping;
-            isjumping = true;
-            jumpHeight += jumpForce;
-            startY = transform.position.y;
-            return;
-        }
-
-        if (cPS == PlayerState.Jumping || isjumping)
-        {
-            jumpHeight -= (jumpHeight * jumpDecrease * Time.deltaTime) + fallMultiplier * Time.deltaTime;
-            fallMultiplier += incrementJumpFallSpeed;
-
-            finalVelocity.y = jumpHeight;
-
-
-            //if ((transform.position.y - startY) > 0.6f)
-            if (activado == false && !sphereGrounded)
-                activado = true;
-
-            if (activado && (grounded||sphereGrounded))
+            if (Input.GetKeyDown(KeyCode.Space) && (grounded || sphereGrounded) && cPS != PlayerState.Slipping)
             {
-                jumpHeight = 0;
-                fallMultiplier = -1;
+
+                cPS = PlayerState.Jumping;
+                isjumping = true;
+                jumpHeight += jumpForce;
                 startY = transform.position.y;
-                cPS = PlayerState.Walking;
-                isjumping = false;
-                activado = false;
-                CheckLift();
+                return;
+            }
+        }
+        else
+        {
+            if (cPS == PlayerState.Jumping || isjumping)
+            {
+                jumpHeight -= (jumpHeight * jumpDecrease * Time.deltaTime) + fallMultiplier * Time.deltaTime;
+                fallMultiplier += incrementJumpFallSpeed;
+
+                finalVelocity.y = jumpHeight;
+
+
+                //if ((transform.position.y - startY) > 0.6f)
+                if (activado == false && !sphereGrounded)
+                    activado = true;
+
+                if (activado && (grounded || sphereGrounded))
+                {
+                    jumpHeight = 0;
+                    fallMultiplier = -1;
+                    startY = transform.position.y;
+                    cPS = PlayerState.Walking;
+                    isjumping = false;
+                    activado = false;
+                    CheckLift();
+                }
+
+
+
             }
 
-
-
         }
-
-
 
 
 
@@ -379,6 +431,19 @@ public class Motor : MonoBehaviour {
 
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (externalControl == false)
+        {
+            if (collider.transform.CompareTag("ControllerObject")) // this string is your newly created tag
+            {
+                collider.transform.GetComponent<Controller>().Attach();
+            }
+        }
+
+    }
+
+
     #endregion
 
     #region Helper Methods
@@ -391,7 +456,7 @@ public class Motor : MonoBehaviour {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.TransformPoint(localListSpherePoint), liftSphereRadius);
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(new Vector3(transform.position.x, transform.position.y + liftCutoff, transform.position.z), new Vector3(1,0.05f,1));
+            Gizmos.DrawWireCube(bottomPoint() + new Vector3(0, liftCutoff), new Vector3(1,0.05f,1));
         }
 
     }
