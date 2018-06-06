@@ -8,6 +8,7 @@ public class Motor : MonoBehaviour {
 
     [Header("Attachments")]
     public Rigidbody rBody;
+    public Transform cameraTransform;
 
     [Header("Slope Options")]
     public float maxSlope;
@@ -139,8 +140,12 @@ public class Motor : MonoBehaviour {
         if (cPS != PlayerState.Slipping)
         {
             Vector3 v = transform.TransformDirection(finalVelocity);
+            //Vector3 v = cameraTransform.TransformDirection(finalVelocity);
 
             rBody.velocity = new Vector3(v.x, v.y, v.z);
+
+            v.y = 0;
+          
 
             finalVelocity = Vector3.zero;
         }
