@@ -57,12 +57,17 @@ public class OrbitController : MonoBehaviour {
 
     }
 
-    public void ApplyingVelocity (Vector3 velocity)
+    public void ApplyingVelocity(Vector3 velocity, float time)
     {
+
         if (velocity.magnitude > 0.1f || velocity.magnitude < -0.1f)
         {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, originalFOV+fovAdd, 0.1f);
-            distanceFromTarget = Mathf.Lerp(distanceFromTarget, originalDist + distanceAdd, 0.1f);
+            if (time > 0.2f)
+            {
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, originalFOV + fovAdd, 0.1f);
+                distanceFromTarget = Mathf.Lerp(distanceFromTarget, originalDist + distanceAdd, 0.1f);
+            }
+           
         }
         else
         {
@@ -70,6 +75,4 @@ public class OrbitController : MonoBehaviour {
             distanceFromTarget = Mathf.Lerp(distanceFromTarget, originalDist, 0.1f);
         }
     }
-
-
 }

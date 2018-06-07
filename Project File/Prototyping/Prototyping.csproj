@@ -309,6 +309,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AnimationController.cs" />
+    <Compile Include="Assets\ConicalConstraint.cs" />
+    <Compile Include="Assets\FullBodyIKManager.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -360,6 +362,7 @@
     <Compile Include="Assets\Scripts\MainController\LedgeController.cs" />
     <Compile Include="Assets\Scripts\MainController\Motor.cs" />
     <Compile Include="Assets\Scripts\MainController\OrbitController.cs" />
+    <Compile Include="Assets\SphericalConstraint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />

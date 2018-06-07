@@ -141,12 +141,15 @@ public class Motor : MonoBehaviour {
     {
         Debug.DrawRay(transform.position, transform.position + directionalChange, Color.blue, 0.1f);
 
-        if (directionalChange.magnitude > 0.1f || directionalChange.magnitude < -0.1f)
-            transform.LookAt(transform.position + directionalChange);
+        if (directionalChange.magnitude > 0.05f || directionalChange.magnitude < -0.05f)
+            transform.LookAt(transform.position+Vector3.Lerp(transform.forward.normalized,directionalChange.normalized,0.2f));
+
+       
     }
 
 
-
+    [HideInInspector]
+    public float inputWithoutRelease = 0f;
     public void FakeInput()
     {
         if (cPS != PlayerState.Slipping)
@@ -156,6 +159,15 @@ public class Motor : MonoBehaviour {
             animController.VelocityChange(input);
             finalVelocity += (input * globalSpeed)*inputPower;
 
+            if (input.magnitude > 0.05f)
+            {
+                inputWithoutRelease += Time.deltaTime;
+            }
+            else
+            {
+                inputWithoutRelease = 0f;
+            }
+
         }
     }
 
@@ -164,9 +176,11 @@ public class Motor : MonoBehaviour {
     public void CalculateRawMovement()
     {
 
+        //IF SLIPPING CANT CHANGE DIRECTIONNNNN
         if (cPS != PlayerState.Slipping)
         {
             Vector3 a = finalVelocity;
+           
             Vector3 b = cameraTransform.TransformDirection(a);
             Vector3 c = transform.TransformDirection(a);
 
@@ -176,7 +190,7 @@ public class Motor : MonoBehaviour {
 
             v.y = 0;
 
-
+            a.y *= 0;
             Vector3 s = cameraTransform.TransformDirection(a);
             s.y = 0;
 
@@ -186,7 +200,7 @@ public class Motor : MonoBehaviour {
           //  Debug.DrawRay(cameraTransform.position, s, Color.red, 0.1f);
            
 
-            cameraController.ApplyingVelocity(v); 
+            cameraController.ApplyingVelocity(v, inputWithoutRelease); 
 
 
             finalVelocity = Vector3.zero;

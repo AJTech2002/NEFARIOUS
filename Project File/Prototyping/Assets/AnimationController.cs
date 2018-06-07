@@ -45,6 +45,9 @@ public class AnimationController : MonoBehaviour {
 
         lastVelocity = new Vector2(velocity.x, velocity.z);
 
+       
+
+
         animator.SetFloat("Forward", lastZ);
         animator.SetFloat("Right", lastX);
     }

@@ -8,6 +8,7 @@ TagManager:
   - StairObject
   - ControllerObject
   - Collide
+  - IKObject
   layers:
   - Default
   - TransparentFX
