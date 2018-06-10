@@ -7,9 +7,27 @@ public class ConicalConstraint : MonoBehaviour {
     [Header("ConstrainTesting")]
     public bool isRelativeToHoldingParent;
     public bool useCustomContraint;
+    [Header("Shape")]
+    public bool isCone;
+    public bool isSemiCircle;
+    public bool isElipse;
+
+    [Header("Transforms")]
     public Transform holderBone;
     public Transform holderBoneParent;
     public Transform ikTestingBone;
+
+    [Header("Elipse Options")]
+    [Range(0f,21f)]
+    public float xStretch;
+    [Range(0f, 21f)]
+    public float yStretch;
+
+
+    [Header("Semi-Circle Options")]
+    public int posNeg = 1;
+    public float fatnessP;
+    public float boldnessB;
 
     [Header("Cone Values")]
     public float coneRadiusX;
@@ -45,15 +63,17 @@ public class ConicalConstraint : MonoBehaviour {
         // coneRadiusX = 0.5f*Vector3.Distance(ikTestingBone.position, holderBone.position) / originalDistance;
 
         if (clampOnNeed)
-            transform.position = clampIfNeed(transform.position);
+            transform.position = coneClampIfNeeded(transform.position);
 
     }
 
 
-    public Vector3 clampIfNeed(Vector3 point)
+    public Vector3 coneClampIfNeeded(Vector3 point)
     {
         Vector3 x = holderBone.position;
         Vector3 dir = directionFacing.normalized;
+        if (useCustomContraint)
+            dir = directionFacing;
         float height = originalDistance;
         float r = coneRadiusX;
 
@@ -63,18 +83,26 @@ public class ConicalConstraint : MonoBehaviour {
         float cone_radius = (coneDist / height) * r;
         float orthDist = ((p - x) - coneDist * dir).magnitude;
 
-        bool isPointInsideCone = (orthDist < cone_radius);
+        if (isCone)
+        {
+            bool isPointInsideCone = (orthDist < cone_radius);
 
-        if (isPointInsideCone == true)
-            return point;
+            if (isPointInsideCone == true)
+                return point;
 
-        Vector3 dirr = (p - (holderBone.position + (directionFacing.normalized * coneDist))).normalized;
-       
+            Vector3 dirr = (p - (holderBone.position + (dir * coneDist))).normalized;
 
-        dirr = Vector3.ClampMagnitude(dirr, cone_radius);
-        Vector3 c = (holderBone.position + (directionFacing.normalized * coneDist)) + dirr;
-        return c;
 
+            dirr = Vector3.ClampMagnitude(dirr, cone_radius);
+            Vector3 c = (holderBone.position + (dir * coneDist)) + dirr;
+            return c;
+        }
+        else if (isElipse)
+        {
+
+        }
+
+        return point;
     }
 
 }

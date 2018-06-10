@@ -675,10 +675,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRelativeToHoldingParent: 0
   useCustomContraint: 0
+  isCone: 0
+  isSemiCircle: 0
+  isElipse: 0
   holderBone: {fileID: 1687019997}
   holderBoneParent: {fileID: 1061971022}
   ikTestingBone: {fileID: 315544460}
-  coneRadiusX: 0.16
+  xStretch: 0
+  yStretch: 0
+  posNeg: 1
+  fatnessP: 0
+  boldnessB: 0
+  coneRadiusX: 0.15
   customConstraintDirection: {x: -0.47, y: 0.92, z: 0}
   directionFacing: {x: 0.29576588, y: 1.0906792, z: 0.0073304176}
   originalDistance: 1.1300939
@@ -694,7 +702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32983a720d82c54a94157494b5db4b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphereRadius: 0.34
+  sphereRadius: 0.2
   relativeObject: {fileID: 1687019997}
   offset: {x: 1.521897, y: 5.612207, z: 0}
   activateClamping: 1
@@ -787,9 +795,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRelativeToHoldingParent: 0
   useCustomContraint: 0
+  isCone: 0
+  isSemiCircle: 0
+  isElipse: 0
   holderBone: {fileID: 1025345661}
   holderBoneParent: {fileID: 1061971022}
   ikTestingBone: {fileID: 332343983}
+  xStretch: 0
+  yStretch: 0
+  posNeg: 1
+  fatnessP: 0
+  boldnessB: 0
   coneRadiusX: 0.17
   customConstraintDirection: {x: 0, y: 0, z: 0}
   directionFacing: {x: 0.39344501, y: 0.35658932, z: -0.031078815}
@@ -1201,6 +1217,7 @@ GameObject:
   - component: {fileID: 517708991}
   - component: {fileID: 517708993}
   - component: {fileID: 517708992}
+  - component: {fileID: 517708994}
   m_Layer: 0
   m_Name: ShinBoneR
   m_TagString: Untagged
@@ -1264,6 +1281,35 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 517708990}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &517708994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 517708990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f127da46d601d418e67f9fdee761cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRelativeToHoldingParent: 0
+  useCustomContraint: 0
+  isCone: 0
+  isSemiCircle: 0
+  isElipse: 1
+  holderBone: {fileID: 332343983}
+  holderBoneParent: {fileID: 0}
+  ikTestingBone: {fileID: 517708991}
+  xStretch: 0.3
+  yStretch: 2
+  posNeg: 1
+  fatnessP: 0
+  boldnessB: 0
+  coneRadiusX: 0.26
+  customConstraintDirection: {x: 0, y: -0.99, z: 0.24}
+  directionFacing: {x: -0.0001335144, y: -2.6414158, z: -0.2946558}
+  originalDistance: 2.6577997
+  clampOnNeed: 1
 --- !u!1001 &525938017
 Prefab:
   m_ObjectHideFlags: 0
@@ -3504,9 +3550,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRelativeToHoldingParent: 0
   useCustomContraint: 0
+  isCone: 0
+  isSemiCircle: 0
+  isElipse: 0
   holderBone: {fileID: 1025345661}
   holderBoneParent: {fileID: 1061971022}
   ikTestingBone: {fileID: 1511109333}
+  xStretch: 0
+  yStretch: 0
+  posNeg: 1
+  fatnessP: 0
+  boldnessB: 0
   coneRadiusX: 0.17
   customConstraintDirection: {x: 0, y: 0, z: 0}
   directionFacing: {x: -0.39344501, y: 0.35658932, z: -0.031079292}
@@ -4046,10 +4100,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRelativeToHoldingParent: 0
   useCustomContraint: 1
+  isCone: 0
+  isSemiCircle: 0
+  isElipse: 0
   holderBone: {fileID: 1687019997}
   holderBoneParent: {fileID: 1061971022}
   ikTestingBone: {fileID: 1875286916}
-  coneRadiusX: 0.16
+  xStretch: 0
+  yStretch: 0
+  posNeg: 1
+  fatnessP: 0
+  boldnessB: 0
+  coneRadiusX: 0.15
   customConstraintDirection: {x: -0.06, y: 0.92, z: 0}
   directionFacing: {x: -0.06, y: 0.92, z: 0}
   originalDistance: 1.1126978
@@ -4065,7 +4127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32983a720d82c54a94157494b5db4b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphereRadius: 0.34
+  sphereRadius: 0.2
   relativeObject: {fileID: 1687019997}
   offset: {x: -0.331759, y: 5.71557, z: 0.06031645}
   activateClamping: 1
