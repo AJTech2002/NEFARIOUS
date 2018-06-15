@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConicalConstraint : MonoBehaviour {
+public class ConicalConstraint : Constraint {
 
     [Header("ConstrainTesting")]
     public bool isRelativeToHoldingParent;
@@ -56,19 +56,19 @@ public class ConicalConstraint : MonoBehaviour {
 
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (isRelativeToHoldingParent && !useCustomContraint)
         directionFacing = holderBone.position - holderBoneParent.position;
         // coneRadiusX = 0.5f*Vector3.Distance(ikTestingBone.position, holderBone.position) / originalDistance;
 
         if (clampOnNeed)
-            transform.position = coneClampIfNeeded(transform.position);
+            transform.position = clampIfNeeded(transform.position);
 
     }
 
 
-    public Vector3 coneClampIfNeeded(Vector3 point)
+    public override Vector3 clampIfNeeded(Vector3 point)
     {
         Vector3 x = holderBone.position;
         Vector3 dir = directionFacing.normalized;

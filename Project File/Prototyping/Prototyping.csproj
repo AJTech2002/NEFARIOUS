@@ -310,7 +310,11 @@
   <ItemGroup>
     <Compile Include="Assets\AnimationController.cs" />
     <Compile Include="Assets\ConicalConstraint.cs" />
-    <Compile Include="Assets\FullBodyIKManager.cs" />
+    <Compile Include="Assets\Constraint.cs" />
+    <Compile Include="Assets\IK System\DisplayBones.cs" />
+    <Compile Include="Assets\IK System\IKBone.cs" />
+    <Compile Include="Assets\IKChain.cs" />
+    <Compile Include="Assets\IKConnector.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />

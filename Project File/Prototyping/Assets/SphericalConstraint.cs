@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SphericalConstraint : MonoBehaviour {
+public class SphericalConstraint : Constraint {
 
     public float sphereRadius;
     public Transform relativeObject;
@@ -59,7 +59,7 @@ public class SphericalConstraint : MonoBehaviour {
     }
 
 
-    public Vector3 clampIfNeeded (Vector3 point)
+    public override Vector3 clampIfNeeded (Vector3 point)
     {
         if (PointIsInSphere(point))
             return point;
