@@ -1,22 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEditor;
 namespace IK
 {
     public class IKChain : MonoBehaviour
     {
         #region Variables
 
+       
+        [Header("Blending Options")]
+        public bool doubleEffector;
+        public Transform bEffector;
+
+
         [Header("Options")]
         [Range(0, 2)]
+        
         public float elbowPower;
+        [Range(0,1)]
+        public float blendSpeed;
         public float refFollowSpeed;
 
         [Header("Joint References")]
         public Transform endEffector;
         public Transform centroidRef;
         public Transform elbowRef;
+        public Vector3 elbowOffset;
         public Transform upperRef;
         public Transform lowerRef;
         public Transform handRef;
@@ -32,6 +42,11 @@ namespace IK
         [Header("Model Offset")]
         public Vector3 upperOffset;
         public Vector3 lowerOffset;
+        public Vector3 nonBlentUpper;
+        public Vector3 nonBlentLower;
+
+        public Vector3 addedRotationUpper;
+        public Quaternion addedRotationlower;
 
 
         [HideInInspector]
@@ -74,7 +89,9 @@ namespace IK
                 Gizmos.color = Color.green;
                 Gizmos.DrawLine(handRef.position, endEffector.position);
 
-
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireSphere(lowerRef.position + elbowOffset, 0.3f);
+                
             }
 
 
@@ -107,6 +124,13 @@ namespace IK
 
         }
 
+        public void FinishVariables()
+        {
+            tempHand = handRef.position;
+            tempLower = lowerRef.position;
+            tempUpper = upperRef.position;
+        }
+
         public void SetModelPosition()
         {
             upperRef.position = upperModel.position;
@@ -126,17 +150,24 @@ namespace IK
              SetTempPos();
          } */
 
+        
+
         public Vector3 SolveBackward(Vector3 endEffector)
         {
             tempCentroid = centroidPos;
 
-            tempHand = endEffector;
-
+            if (!doubleEffector)
+                tempHand = endEffector;
+            else
+            {
+                tempHand = Vector3.Lerp(endEffector, bEffector.position, blendSpeed);
+                //blendController.SetLayerWeight(layer, blendSpeed);
+            }
             Vector3 handToLower = (tempLower - tempHand).normalized * lowerToHandDist;
-            tempLower = tempHand + handToLower + (elbowRef.position - lowerRef.position).normalized * elbowPower;
+            tempLower = tempHand + handToLower;
 
             Vector3 lowerToUpper = (tempUpper - tempLower).normalized * upperToLowerDist;
-            tempUpper = tempLower + lowerToUpper;
+            tempUpper = tempLower + lowerToUpper + elbowOffset;
 
             Vector3 upperToCentroid = (tempCentroid - tempUpper).normalized * centroidToUpperDist;
             tempCentroid = tempUpper + upperToCentroid;
@@ -154,7 +185,7 @@ namespace IK
             tempUpper = tempCentroid + centroidToUpper;
 
             Vector3 upperToLower = (tempLower - tempUpper).normalized * upperToLowerDist;
-            tempLower = tempUpper + upperToLower;
+            tempLower = tempUpper + upperToLower + elbowOffset;
 
             Vector3 lowerToHand = (tempHand - tempLower).normalized * lowerToHandDist;
             tempHand = tempLower + lowerToHand;
@@ -167,7 +198,7 @@ namespace IK
             {
 
                 tempUpper = upperConstraint.clampIfNeeded(tempUpper);
-                tempLower = (tempUpper + (tempLower - tempUpper).normalized * upperToLowerDist);
+                tempLower = (tempUpper + elbowOffset + (tempLower - tempUpper).normalized * upperToLowerDist);
                 tempHand = (tempLower + (tempHand - tempLower).normalized * lowerToHandDist);
 
             }
@@ -189,14 +220,30 @@ namespace IK
 
             if (hasModel)
             {
+
+
+                //lerp to a blent position between frame by keyframe and IK position based on blend 
+                //or use blend trees to fix it for a slope
+
                 upperModel.LookAt(lowerRef, cross);
                 upperModel.Rotate(upperOffset);
-
                 lowerModel.LookAt(handRef, cross);
                 lowerModel.Rotate(lowerOffset);
+                //  upperModel.rotation = Quaternion.Slerp(upperModel.rotation,Quaternion.LookRotation((lowerRef.position-upperRef.position), cross),blendSpeed);
+
+                //  upperModel.Rotate(Vector3.Lerp(nonBlentUpper,upperOffset,blendSpeed));
+
+
+                // lowerModel.rotation = Quaternion.Slerp(lowerModel.rotation, Quaternion.LookRotation((handRef.position-lowerRef.position), cross),blendSpeed);
+
+                // lowerModel.Rotate(Vector3.Lerp(nonBlentLower, lowerOffset, blendSpeed));
+
             }
 
             centroidPos = centroidRef.position;
+
+            SetModelPosition();
+            FinishVariables();
 
         }
 
@@ -224,3 +271,16 @@ public class IKLink
     }
 
 }
+
+//  upperModel.LookAt(lowerRef, cross);
+
+//  upperModel.Rotate(upperOffset);
+// upperModel.Rotate(upperOffset);
+//upperModel.localEulerAngles = Vector3.Lerp(upperModel.localEulerAngles, upperModel.localEulerAngles + upperOffset, blendSpeed * Time.deltaTime);
+// upperModel.eulerAngles += addedRotationUpper;
+
+
+//                lowerModel.LookAt(handRef, cross);
+//              lowerModel.Rotate(lowerOffset);
+// lowerModel.Rotate(lowerOffset);
+//lowerModel.localEulerAngles = Vector3.Lerp(lowerModel.localEulerAngles, lowerModel.localEulerAngles + lowerOffset, blendSpeed * Time.deltaTime);
