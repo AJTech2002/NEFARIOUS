@@ -218,6 +218,8 @@ public class Motor : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, discludePlayerMask))
         {
             currentGround = hit;
+            currentSlope = Vector3.Angle(currentGround.normal, Vector3.up);
+
         }
 
         return;
@@ -251,6 +253,8 @@ public class Motor : MonoBehaviour {
     private float coolDown = 0.13f;
     private Vector3 lastNorm;
     private Vector3 lastNorm2;
+    [HideInInspector]
+    public float currentSlope;
     public void SlipDownSlope()
     {
         
@@ -267,6 +271,7 @@ public class Motor : MonoBehaviour {
                 return;
 
             float slope = Vector3.Angle(hit.normal, Vector3.up);
+            
             Vector3 hitNormal = hit.normal;
             Vector3 moveDirection = new Vector3(hitNormal.x, -hitNormal.y * 0.5f, hitNormal.z);
          

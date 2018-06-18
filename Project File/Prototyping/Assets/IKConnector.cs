@@ -9,11 +9,12 @@ namespace IK
     {
 
         public bool autoSolve;
-
+        public bool solveForHand;
         public IKChain arm1;
         public IKChain arm2;
 
         [Header("Child Component")]
+        public IKModelLookAt checkLookAt;
         public IKConnector childConnector;
         public bool hasChild;
 
@@ -38,7 +39,8 @@ namespace IK
 
         public void SolveIK()
         {
-          
+
+        
 
             Vector3 arm1V = arm1.SolveBackward(arm1.endEffector.position);
             Vector3 arm2V = arm2.SolveBackward(arm2.endEffector.position);
@@ -59,6 +61,19 @@ namespace IK
 
             if (hasChild && autoSolve)
                 childConnector.SolveIK();
+
+            if (checkLookAt != null)
+            {
+                checkLookAt.SolveModel();
+                arm1.SetModelPosition();
+                arm2.SetModelPosition();
+            }
+
+            if (solveForHand)
+            {
+                arm1.SolveForEndPoint();
+                arm2.SolveForEndPoint();
+            }
 
         }
 

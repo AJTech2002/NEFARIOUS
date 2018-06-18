@@ -28,9 +28,12 @@ public class IKModelLookAt : MonoBehaviour {
         model.Rotate(modelOffset);
     }
 
-    private void LateUpdate()
+    
+    public void LookAt (Vector3 v, float influence)
     {
-        SolveModel();
+        model.LookAt(Vector3.Lerp(transform.position + (connectorTransform.position - transform.position).normalized, transform.position + (v - transform.position).normalized, influence), Vector3.up);
+        model.Rotate(modelOffset);
     }
+
 
 }

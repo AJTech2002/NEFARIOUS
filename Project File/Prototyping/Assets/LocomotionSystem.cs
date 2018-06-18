@@ -4,57 +4,27 @@ using UnityEngine;
 using IK;
 public class LocomotionSystem : MonoBehaviour {
 
-    public Transform footA;
-    public Transform realFoot;
-    public Transform footIKA;
-    public Vector3 footOffset;
-    public float footLift;
-    public float maxDIst;
-    public Animator affectBlending;
-    public IKConnector solver;
-    public float closes;
-	// Use this for initialization
-	void Start () {
+    [Header("Head IK")]
+    public Transform headBone;
+    public Vector3 headOffset;
 
-	}
+    [Header("Arms and Legs")]
+    public IKConnector armsConnector;
+    public IKConnector legsConnector;
 
-    // Update is called once per frame
+    [Header("Chest")]
+    public IKModelLookAt chestConnector;
 
-    public string leg;
+    [Header("External References")]
+    public Animator playerAnimator;
 
-	void LateUpdate () {
-     
-            Ray ray = new Ray(footA.position, Vector3.down);
-            RaycastHit hit;
+    [Header("Preset Animator Curves")]
+    public List<AnimationCurve> curves = new List<AnimationCurve>();
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.distance <= maxDIst)
-                {
-                    Vector3 hp = hit.point;
-                    hp.y += footLift;
+    [Header("LookTesting")]
+    public float chest;
 
-                    footIKA.position = Vector3.Lerp(footIKA.position, hp, 0.6f);
-                    realFoot.LookAt(realFoot.position + footIKA.forward * 10, footIKA.right);
-                    realFoot.Rotate(footOffset);
-                    if (leg == "right")
-                        solver.SolveArm1(solver.arm1);
-                    else
-                        solver.SolveArm1(solver.arm2);
-                    
-                    //  affectBlending.SetLayerWeight(1, 1f);
-                }
-                else
-                {
-                    //  affectBlending.SetLayerWeight(1, 0f);
-                }
-            }
-       
-	}
+   
 
-    public void SolveIKFor (string legName)
-    {
-        leg = legName;
-    }
 
 }

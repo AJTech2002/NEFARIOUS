@@ -20,6 +20,8 @@ namespace IK
         public float elbowPower;
         [Range(0,1)]
         public float blendSpeed;
+        [Range(0, 1)]
+        public float doubleBlend;
         public float refFollowSpeed;
 
         [Header("Joint References")]
@@ -38,6 +40,11 @@ namespace IK
         public bool hasModel;
         public Transform upperModel;
         public Transform lowerModel;
+        
+
+        [Header("Hand Refs")]
+        public Transform handModel;
+        public Vector3 handOffset;
 
         [Header("Model Offset")]
         public Vector3 upperOffset;
@@ -150,7 +157,7 @@ namespace IK
              SetTempPos();
          } */
 
-        
+    
 
         public Vector3 SolveBackward(Vector3 endEffector)
         {
@@ -160,7 +167,7 @@ namespace IK
                 tempHand = endEffector;
             else
             {
-                tempHand = Vector3.Lerp(endEffector, bEffector.position, blendSpeed);
+                tempHand = Vector3.Lerp(bEffector.position, endEffector, blendSpeed);
                 //blendController.SetLayerWeight(layer, blendSpeed);
             }
             Vector3 handToLower = (tempLower - tempHand).normalized * lowerToHandDist;
@@ -207,9 +214,9 @@ namespace IK
 
             if (refFollowSpeed > 1.5f)
             {
-                upperRef.position = tempUpper;
-                lowerRef.position = tempLower;
-                handRef.position = tempHand;
+                upperRef.position = Vector3.Lerp(upperModel.position, tempUpper,doubleBlend);
+                lowerRef.position = Vector3.Lerp(lowerModel.position, tempLower,doubleBlend);
+                handRef.position = Vector3.Lerp(handModel.position,tempHand,doubleBlend);
             }
             else
             {
@@ -247,11 +254,19 @@ namespace IK
 
         }
 
-
+        public void SolveForEndPoint()
+        {
+            handModel.LookAt(handRef.position + endEffector.forward);
+            handModel.Rotate(handOffset);
+        }
 
         #endregion
 
     }
+
+   
+
+
 }
 
     [System.Serializable]

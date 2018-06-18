@@ -62,6 +62,7 @@
     <Compile Include="Assets\AnimationController.cs" />
     <Compile Include="Assets\ConicalConstraint.cs" />
     <Compile Include="Assets\Constraint.cs" />
+    <Compile Include="Assets\FootIK.cs" />
     <Compile Include="Assets\IK System\DisplayBones.cs" />
     <Compile Include="Assets\IK System\IKBone.cs" />
     <Compile Include="Assets\IKChain.cs" />

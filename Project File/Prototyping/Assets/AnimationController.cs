@@ -15,6 +15,17 @@ public class AnimationController : MonoBehaviour {
    
     private Vector2 lastVelocity;
 
+    [Header("Slope Controls")]
+    public Motor controller;
+    public float maxSlope;
+
+
+    private void Update()
+    {
+        
+       
+    }
+
     public void VelocityChange(Vector3 velocity)
     {
 
