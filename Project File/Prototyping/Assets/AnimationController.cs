@@ -22,8 +22,8 @@ public class AnimationController : MonoBehaviour {
 
     private void Update()
     {
-        
-       
+
+      
     }
 
     public void VelocityChange(Vector3 velocity)

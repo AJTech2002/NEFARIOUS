@@ -156,6 +156,7 @@ public class Motor : MonoBehaviour {
         {
             Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             input = Vector3.ClampMagnitude(input, 1);
+            if (animController != null)
             animController.VelocityChange(input);
             finalVelocity += (input * globalSpeed)*inputPower;
 
@@ -369,6 +370,9 @@ public class Motor : MonoBehaviour {
             //Apply gravity
         }
     }
+    
+    
+
 
     #region Jumping
 
@@ -462,7 +466,7 @@ public class Motor : MonoBehaviour {
                 }
                 else if (cGS == GroundState.ClimbingStairs || cGS == GroundState.RoughTerrain)
                     rBody.position = Vector3.Lerp(rBody.position, new Vector3(rBody.position.x, hit.point.y + playerHeight / 2, rBody.position.z), 0.25f);
-
+                
             }
 
         }
@@ -473,10 +477,17 @@ public class Motor : MonoBehaviour {
 
     #region State Machine
 
+
     private void IdentifyGround()
     {
 
-        
+        {
+
+        }
+
+        {
+
+        }
 
         if (currentGround.transform.CompareTag("StairObject"))
         {
@@ -505,6 +516,7 @@ public class Motor : MonoBehaviour {
             {
                 collider.transform.GetComponent<Controller>().Attach();
             }
+            
         }
 
     }
@@ -530,6 +542,7 @@ public class Motor : MonoBehaviour {
 
     public Vector3 bottomPoint ()
     {
+       
 
         return new Vector3(transform.position.x, transform.position.y - playerHeight / 2, transform.position.z);
 
@@ -545,8 +558,11 @@ public class Motor : MonoBehaviour {
     public Vector3 topPoint()
     {
         return new Vector3(transform.position.x, transform.position.y + playerHeight / 2, transform.position.z);
+        
     }
 
     #endregion
 
+
+   
 }

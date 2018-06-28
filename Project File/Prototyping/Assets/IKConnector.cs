@@ -12,6 +12,7 @@ namespace IK
         public bool solveForHand;
         public IKChain arm1;
         public IKChain arm2;
+        
 
         [Header("Child Component")]
         public IKModelLookAt checkLookAt;

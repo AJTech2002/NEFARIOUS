@@ -174,7 +174,7 @@ namespace IK
             tempLower = tempHand + handToLower;
 
             Vector3 lowerToUpper = (tempUpper - tempLower).normalized * upperToLowerDist;
-            tempUpper = tempLower + lowerToUpper + elbowOffset;
+            tempUpper = tempLower + lowerToUpper + (elbowRef.position-lowerRef.position).normalized*elbowPower;
 
             Vector3 upperToCentroid = (tempCentroid - tempUpper).normalized * centroidToUpperDist;
             tempCentroid = tempUpper + upperToCentroid;
@@ -192,7 +192,7 @@ namespace IK
             tempUpper = tempCentroid + centroidToUpper;
 
             Vector3 upperToLower = (tempLower - tempUpper).normalized * upperToLowerDist;
-            tempLower = tempUpper + upperToLower + elbowOffset;
+            tempLower = tempUpper + upperToLower+(elbowRef.position - lowerRef.position).normalized * elbowPower;
 
             Vector3 lowerToHand = (tempHand - tempLower).normalized * lowerToHandDist;
             tempHand = tempLower + lowerToHand;
@@ -205,7 +205,7 @@ namespace IK
             {
 
                 tempUpper = upperConstraint.clampIfNeeded(tempUpper);
-                tempLower = (tempUpper + elbowOffset + (tempLower - tempUpper).normalized * upperToLowerDist);
+                tempLower = (tempUpper + ((elbowRef.position - lowerRef.position).normalized * elbowPower) + (tempLower - tempUpper).normalized * upperToLowerDist);
                 tempHand = (tempLower + (tempHand - tempLower).normalized * lowerToHandDist);
 
             }
@@ -216,6 +216,7 @@ namespace IK
             {
                 upperRef.position = Vector3.Lerp(upperModel.position, tempUpper,doubleBlend);
                 lowerRef.position = Vector3.Lerp(lowerModel.position, tempLower,doubleBlend);
+                if (handRef != null && handModel != null)
                 handRef.position = Vector3.Lerp(handModel.position,tempHand,doubleBlend);
             }
             else
@@ -249,8 +250,8 @@ namespace IK
 
             centroidPos = centroidRef.position;
 
-            SetModelPosition();
-            FinishVariables();
+            //SetModelPosition();
+           // FinishVariables();
 
         }
 
