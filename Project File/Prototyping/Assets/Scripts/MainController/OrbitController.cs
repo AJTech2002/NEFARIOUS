@@ -15,6 +15,12 @@ public class OrbitController : MonoBehaviour {
     public float rotationSpeed;
     public float cameraSpeed;
 
+    [Header("Aiming Vars")]
+    public Vector3 playerOffset;
+    public float distanceFromOffset;
+    public Transform rotator;
+
+    [Header("Senss")]
     public float clampMax;
 
     public Vector2 sensitivity;
@@ -41,20 +47,56 @@ public class OrbitController : MonoBehaviour {
         originalDist = distanceFromTarget;
     }
 
-    private void LateUpdate()
+    private void OnDrawGizmos()
     {
-        transform.position = Vector3.Lerp(transform.position, (playerTarget.position+offsetOrbitPoint) - transform.forward * distanceFromTarget, cameraSpeed);
+        Vector3 r = playerTarget.TransformPoint(playerOffset);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(r, 0.1f);
+    }
+
+    private void ThirdPersonAiming()
+    {
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, originalFOV + fovAdd, 0.1f);
+        transform.position = Vector3.Lerp(transform.position, (playerTarget.TransformPoint(playerOffset) - transform.forward * distanceFromOffset), 0.4f);
         yaw += Input.GetAxis("Mouse X") * sensitivity.x;
         pitch -= Input.GetAxis("Mouse Y") * sensitivity.y;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
-        
         currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSpeed * Time.deltaTime);
-        
-        //TODOD : TOOO MUCH VELOCITY
-        
-        transform.eulerAngles = currentRotation;
-        transform.position = Vector3.Lerp(transform.position, (playerTarget.position + offsetOrbitPoint) - transform.forward * distanceFromTarget, cameraSpeed);
 
+        transform.eulerAngles = currentRotation;
+        Vector3 e = transform.eulerAngles;
+        e.x = 0;
+       // transform.position = Vector3.Lerp(transform.position, (playerTarget.TransformPoint(playerOffset) - transform.forward * distanceFromOffset), cameraSpeed/4);
+
+        //       rotator.eulerAngles = new Vector3(g.x, rotator.eulerAngles.y, rotator.eulerAngles.z);
+
+        playerTarget.eulerAngles = e;
+    }
+
+    private void LateUpdate()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, transform.eulerAngles.z);
+        }
+        if (Input.GetMouseButton(1))
+        {
+            ThirdPersonAiming();
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, (playerTarget.position + offsetOrbitPoint) - transform.forward * distanceFromTarget, cameraSpeed);
+            yaw += Input.GetAxis("Mouse X") * sensitivity.x;
+            pitch -= Input.GetAxis("Mouse Y") * sensitivity.y;
+            pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
+
+            currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSpeed * Time.deltaTime);
+
+            //TODOD : TOOO MUCH VELOCITY
+
+            transform.eulerAngles = currentRotation;
+             transform.position = Vector3.Lerp(transform.position, (playerTarget.position + offsetOrbitPoint) - transform.forward * distanceFromTarget, cameraSpeed);
+        }
     }
 
     public void ApplyingVelocity(Vector3 velocity, float time)
@@ -71,7 +113,8 @@ public class OrbitController : MonoBehaviour {
         }
         else
         {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, originalFOV, 0.1f);
+            if (!Input.GetMouseButton(1))
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, originalFOV, 0.1f);
             distanceFromTarget = Mathf.Lerp(distanceFromTarget, originalDist, 0.1f);
         }
     }

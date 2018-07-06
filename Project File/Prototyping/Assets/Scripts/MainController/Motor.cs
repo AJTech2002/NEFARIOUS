@@ -98,7 +98,7 @@ public class Motor : MonoBehaviour {
             CheckGrounded();
 
             IdentifyGround();
-
+           
 
 
 
@@ -106,7 +106,8 @@ public class Motor : MonoBehaviour {
 
 
             FakeInput();
-            SlipDownSlope();
+         //   SlipDownSlope();
+            SafetyCheck();
 
             if (cPS != PlayerState.Jumping)
             {
@@ -130,7 +131,10 @@ public class Motor : MonoBehaviour {
     private void Update()
     {
         if (!externalControl)
+        {
             Jump(true);
+            SafetyCheck();
+        }
         else
             externalController.ExternalUpdate();
 
@@ -213,7 +217,7 @@ public class Motor : MonoBehaviour {
     #region Grounding
     public void HitTheGround()
     {
-        Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + playerHeight / 2, transform.position.z), -transform.up*20);
+        Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + playerHeight / 2, transform.position.z), -transform.up);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, discludePlayerMask))
@@ -311,7 +315,7 @@ public class Motor : MonoBehaviour {
         Ray sphereRay = new Ray(topPoint(), -transform.up);
         RaycastHit curGround;
 
-        if (Physics.SphereCast(sphereRay, 0.5f, out curGround, 5f, discludeMinimumSlopes))
+        if (Physics.SphereCast(sphereRay, 0.2f, out curGround, 5f, discludeMinimumSlopes))
         {
             if (curGround.transform.CompareTag("ControllerObject"))
                 return;
@@ -326,7 +330,8 @@ public class Motor : MonoBehaviour {
                     Vector3 moveDirection = new Vector3(hitNormal.x, -hitNormal.y * 0.5f, hitNormal.z);
                     moveDirection *= 0.04f + timeOnSlope;
 
-                    transform.position += moveDirection * 0.15f;
+                    //TODO: MODIFICIATION MADE HEREE!!!!
+                    rBody.position += moveDirection * 0.15f;
                     cPS = PlayerState.Slipping;
 
                     lastNorm = moveDirection * 0.15f;
@@ -477,17 +482,37 @@ public class Motor : MonoBehaviour {
 
     #region State Machine
 
+    //Just incase the player clips through the ground (which does happen imao)
+    public void SafetyCheck()
+    {
+        RaycastHit groundH = currentGround;
+        RaycastHit botHit = new RaycastHit();
+        Ray ray = new Ray(bottomPoint(), Vector3.down);
+        Ray ray2 = new Ray(topPoint(), Vector3.down);
+        if (Physics.Raycast(ray, out botHit, 200, discludePlayerMask))
+        {
+            if (botHit.transform != groundH.transform)
+            {
+                if (grounded)
+                rBody.position = new Vector3(rBody.position.x, groundH.point.y + playerHeight / 2, rBody.position.z);
+            }
+        }
+        else
+        {
+            RaycastHit topHit;
+           if (Physics.Raycast(ray2, out topHit, 200, discludePlayerMask))
+            {
+                if (grounded)
+                    rBody.position = new Vector3(rBody.position.x, topHit.point.y + playerHeight / 2, rBody.position.z);
+            }
+        }
+
+
+    }
 
     private void IdentifyGround()
     {
 
-        {
-
-        }
-
-        {
-
-        }
 
         if (currentGround.transform.CompareTag("StairObject"))
         {
