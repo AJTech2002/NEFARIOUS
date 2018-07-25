@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class CarManager : MonoBehaviour {
 
+    [Header("Sensitivity")]
+    public float accelerationSens;
+    public float turnSens;
+    public float punishment;
+    public float reward;
+
     public Transform target;
-    public GeneticManager manage;
+
 
     public bool DEBUG;
     public bool MARKED;
@@ -14,6 +20,7 @@ public class CarManager : MonoBehaviour {
     public LayerMask rayMask;
 
     public float fitness;
+ 
     public bool dead;
 
 
@@ -21,22 +28,17 @@ public class CarManager : MonoBehaviour {
 
     public Matrix inputMatrix;
 
+    public float maxDist;
+
     [Header("Detectors")]
     public List<Vector3> inputs = new List<Vector3>();
 
     public bool isTestCookie = false;
 
 
-    public void NewCar (Vector3 startPos, Vector3 startRot, float _speed, float _maxDetection, NNet network)
-    {
-       
-        startPoint = startPos;
-        transform.position = startPos;
-        startEulerAngles = startRot;
-        transform.eulerAngles = startRot;
-        inputMatrix.Create(1, 5);
-        CarNetwork = network;
-    }
+
+    public Vector3 startEulerAngles;
+    public Vector3 startPoint;
 
     private void Awake()
     {
@@ -46,75 +48,36 @@ public class CarManager : MonoBehaviour {
             startPoint = transform.position;
             startEulerAngles = transform.eulerAngles;
    
-            inputMatrix.Create(1, 5);
-            CarNetwork = new NNet(new Matrix(1, 5, "Yeah"));
+            inputMatrix.Create(1, inputs.Count);
+            CarNetwork = new NNet(new Matrix(1, inputs.Count, "Yeah"));
         }
     }
-    public CarStore myStore;
-    public Vector3 startEulerAngles;
-    public Vector3 startPoint;
-    private float maxDist;
-    float deltaTime = 0;
+
     private void FixedUpdate()
     {
-        if (!dead)
-        {
-           
 
-            deltaTime += Time.deltaTime;
-            // fitness += (deltaTime * 0.4f);
-            iterations += 1;
-            Detection();
-            ForwardPropogate();
-
-        }
-        else
-        {
-            
-            this.GetComponent<MeshRenderer>().enabled = false;
-            DEBUG = false;
-           // Destroy(this.gameObject, 2);
-        }
-        
+        Detection();
+        ForwardPropogate();
     }
-
-    public void ReStore (CarStore a)
+    public float changeIn;
+    private void ForwardPropogate()
     {
-        CarNetwork = a.network;
-        dead = false;
-    }
+    
+        Matrix o = CarNetwork.ForwardPropogate(inputMatrix);
+        float accel = o.v[0, 0]*accelerationSens;
+        float turnL = o.v[0, 1]*turnSens;
+        float turnR = o.v[0, 2]*turnSens;
 
-    public void ForwardPropogate()
-    {
-     //   print(inputMatrix.v[0, 4]);
-        Matrix output = CarNetwork.ForwardPropogate(inputMatrix);
-        float leftProbability = output.v[0, 0];
-        float rightProbability = output.v[0, 1];
-        float forwardProb = output.v[0, 2];
-        detection = output.v[0, 3]*10;
-        
-        if (leftProbability > rightProbability)
-            Turn(-leftProbability*5);
-        else
-            Turn(rightProbability*5);
-
-       Accelerate(forwardProb*0.6f);
-
-        if (forwardProb <= 0.07f)
-            dead = true;
-
-
-       // Turn(steering);
+        Accelerate(accel);
+  
+        Turn(-turnL + turnR);
 
     }
 
-    float avgDistance = 0f;
-    int flagMultiplier = 1;
-    int iterations = 0;
-    float detection = 10f;
+    float oldFitness = 0f;
     public void Detection()
     {
-        avgDistance = 0f;
+        float avgDistance = 0f;
         for (int i = 0; i < inputs.Count; i++)
         {
             Vector3 r = transform.TransformDirection(inputs[i]);
@@ -123,18 +86,18 @@ public class CarManager : MonoBehaviour {
             RaycastHit hit;
             
 
-            if (Physics.Raycast(ray, out hit, detection, rayMask))
+            if (Physics.Raycast(ray, out hit, maxDist, rayMask))
             {
                 if (DEBUG)
                     Debug.DrawLine(transform.position, hit.point, Color.green);
 
                 if (inputs[i] == new Vector3(0, 0, 1) && hit.transform.CompareTag("Node"))
                 {
-                    fitness += 5;
+                    //fitness += 5;
                    // print("SP ");
                 }
 
-                inputMatrix.UpdateValue(0, i, Mathf.Clamp(Mathf.Abs((hit.distance / 100) - 1), 0, 1));
+                inputMatrix.UpdateValue(0, i, Mathf.Clamp(Mathf.Abs((hit.distance / maxDist) - 1), 0, 1));
                 avgDistance += hit.distance;
             }
             else
@@ -148,9 +111,8 @@ public class CarManager : MonoBehaviour {
         }
 
         avgDistance /= inputs.Count;
-
-        fitness += ((avgDistance*flagMultiplier))/iterations;
-
+        oldFitness = fitness;
+        fitness = avgDistance;
     }
 
     public void Accelerate (float power)
@@ -164,25 +126,22 @@ public class CarManager : MonoBehaviour {
             transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + power, transform.eulerAngles.z), 0.5f);
 
     }
-
-    public void Dead()
-    {
-        dead = true;
-        deltaTime = 0f;
-        fitness -= 4;
-    }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Wall"))
         {
-            Dead();
+            CarNetwork.ChangeNetwork(-punishment);
+            oldFitness = 0f;
+            fitness = 0f;
+            transform.position = startPoint;
+            transform.eulerAngles = startEulerAngles;
         }
         
         if (other.CompareTag("Node"))
         {
-            fitness += 50;
-            flagMultiplier += 2;
+            CarNetwork.ChangeNetwork(reward);
+            print("NODEEE");
         }
 
     }

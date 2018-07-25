@@ -16,12 +16,17 @@ public class Debugger : EditorWindow {
 	void OnGUI() {
 		if (h == null)
 			h = GameObject.FindObjectOfType<DebuggerHelp> ();
-		Repaint ();
-		EditorUtility.SetDirty (h);
 
-		DrawLog ();
+        scrollPos = GUILayout.BeginScrollView(scrollPos, true, true);
+        GUILayout.Label(h.log);
+        GUILayout.EndScrollView();
 
-	}
+        //Repaint ();
+        //	EditorUtility.SetDirty (h);
+
+        //DrawLog ();
+
+    }
 	int curInd = 0;
 	private void DrawLog() {
 		scrollPos = GUILayout.BeginScrollView (scrollPos, true, true);

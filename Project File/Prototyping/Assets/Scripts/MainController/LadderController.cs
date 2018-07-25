@@ -9,8 +9,8 @@ public class LadderController : Controller
 
     public override void ExternalFixedUpdate()
     {
-        motorRef.finalVelocity += Vector3.up;
-        motorRef.CalculateRawMovement();
+        m.finalVelocity += Vector3.up;
+        m.CalculateRawMovement();
     }
 
 }

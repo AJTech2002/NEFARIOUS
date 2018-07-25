@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class DebuggerHelp : MonoBehaviour {
 
-	[HideInInspector]
+	//[HideInInspector]
+    [Multiline]
 	public string log;
-	[HideInInspector]
+	//[HideInInspector]
 	public int lines;
 
 	void Awake() {
-		Clear ();
+		//Clear ();
 	}
 
 	public void Log(string l) {

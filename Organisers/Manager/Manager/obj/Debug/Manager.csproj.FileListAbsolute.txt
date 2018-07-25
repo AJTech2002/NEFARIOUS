@@ -1,0 +1,15 @@
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\bin\Debug\Manager.exe.config
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\bin\Debug\Manager.exe
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\bin\Debug\Manager.pdb
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager.csprojAssemblyReference.cache
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\MainWindow.g.cs
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\App.g.cs
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager_MarkupCompile.cache
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager_MarkupCompile.lref
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\MainWindow.baml
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager.g.resources
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager.Properties.Resources.resources
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager.csproj.GenerateResource.cache
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager.csproj.CoreCompileInputs.cache
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager.exe
+C:\Users\progr\Desktop\Nefarious\NEFARIOUS\Organisers\Manager\Manager\obj\Debug\Manager.pdb

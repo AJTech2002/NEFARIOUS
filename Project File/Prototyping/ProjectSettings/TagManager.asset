@@ -9,6 +9,7 @@ TagManager:
   - ControllerObject
   - Collide
   - IKObject
+  - ViewObject
   layers:
   - Default
   - TransparentFX

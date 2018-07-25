@@ -63,6 +63,8 @@ public class Motor : MonoBehaviour {
     public bool grounded;
     [HideInInspector]
     public bool sphereGrounded;
+    [HideInInspector]
+    public Vector3 cVelocity;
 
 
     //CONTROL OPTIONS
@@ -84,7 +86,7 @@ public class Motor : MonoBehaviour {
 
     private void Awake()
     {
-        inputPower = 1f;
+       // inputPower = 1f;
         finalGlobalSpeed = 1f;
         addedVelocity = Vector3.zero;
     }
@@ -106,7 +108,6 @@ public class Motor : MonoBehaviour {
 
 
             FakeInput();
-         //   SlipDownSlope();
             SafetyCheck();
 
             if (cPS != PlayerState.Jumping)
@@ -132,6 +133,7 @@ public class Motor : MonoBehaviour {
     {
         if (!externalControl)
         {
+            
             Jump(true);
             SafetyCheck();
         }
@@ -143,12 +145,13 @@ public class Motor : MonoBehaviour {
     //* THE TURNING MUST BE DONE IN LATE UPDATE???????????????????
     private void LateUpdate()
     {
-        Debug.DrawRay(transform.position, transform.position + directionalChange, Color.blue, 0.1f);
-
-        if (directionalChange.magnitude > 0.05f || directionalChange.magnitude < -0.05f)
-            transform.LookAt(transform.position+Vector3.Lerp(transform.forward.normalized,directionalChange.normalized,0.2f));
-
-       
+        //Debug.DrawRay(transform.position, transform.position + directionalChange, Color.blue, 0.1f);
+        if (!externalControl)
+        {
+            if (directionalChange.magnitude > 0.05f || directionalChange.magnitude < -0.05f)
+                transform.LookAt(transform.position + Vector3.Lerp(transform.forward.normalized, directionalChange.normalized, 0.2f));
+        }
+   
     }
 
 
@@ -178,6 +181,17 @@ public class Motor : MonoBehaviour {
 
     private Vector3 directionalChange;
     private float directionalChangeSpeed = 0.4f;
+
+    public Vector3 ProcessVector (Vector3 a)
+    {
+      
+        Vector3 b = cameraTransform.TransformDirection(a);
+        Vector3 c = transform.TransformDirection(a);
+
+        Vector3 v = new Vector3(b.x, c.y, b.z);
+        return v;
+    }
+
     public void CalculateRawMovement()
     {
 
@@ -190,7 +204,9 @@ public class Motor : MonoBehaviour {
             Vector3 c = transform.TransformDirection(a);
 
             Vector3 v = new Vector3(b.x, c.y, b.z);
-            
+
+
+            cVelocity = v;
             rBody.velocity = new Vector3(v.x, v.y, v.z);
 
             v.y = 0;
@@ -539,6 +555,7 @@ public class Motor : MonoBehaviour {
         {
             if (collider.transform.CompareTag("ControllerObject")) // this string is your newly created tag
             {
+                if (collider.transform.GetComponent<Controller>().triggerActivated)
                 collider.transform.GetComponent<Controller>().Attach();
             }
             

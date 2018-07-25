@@ -7,13 +7,17 @@ public class LedgeController : Controller {
 
     private void Awake()
     {
-        Attach();
+       
     }
 
     public override void ExternalFixedUpdate()
     {
-       motorRef.finalVelocity += Vector3.one;
-       motorRef.CalculateRawMovement();
+        m.rBody.isKinematic = true;
+       
     }
 
+    public void ResetPosition (Vector3 hitPosition, Vector3 myDir)
+    {
+    }
+    
 }

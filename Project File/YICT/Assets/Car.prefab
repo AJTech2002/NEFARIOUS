@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1343093594764826}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -104.9, y: 195.37, z: 328.1}
-  m_LocalScale: {x: 1.3892, y: 1.3892, z: 3.0033748}
+  m_LocalScale: {x: 2.2315748, y: 2.2315748, z: 4.824543}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -125,17 +125,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  manage: {fileID: 0}
   DEBUG: 1
-  speed: 0.1
-  p: 0
-  maxDetection: 13.8
+  MARKED: 0
   rayMask:
     serializedVersion: 2
     m_Bits: 55
   fitness: 0
   dead: 0
-  move: {x: 1, y: 0, z: 0}
   CarNetwork:
     h1Weights:
       xLen: 0
@@ -155,6 +151,9 @@ MonoBehaviour:
   - {x: -1, y: 0, z: 0}
   - {x: 1, y: 0, z: 1}
   - {x: -1, y: 0, z: 1}
-  isTestCookie: 0
+  - {x: -1, y: 0, z: -1}
+  - {x: 1, y: 0, z: -1}
+  - {x: 0, y: 0, z: -1}
+  isTestCookie: 1
   startEulerAngles: {x: 0, y: 0, z: 0}
   startPoint: {x: 0, y: 0, z: 0}

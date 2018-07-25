@@ -2,7 +2,7 @@
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
 <node CREATED="1523551435019" ID="ID_575210695" MODIFIED="1530319984484" TEXT="The Development Timeline">
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315659502" ID="ID_329295681" MODIFIED="1530615170805" POSITION="right" TEXT="Stage 1 (Mechanics)">
+<node CREATED="1530315659502" FOLDED="true" ID="ID_329295681" MODIFIED="1532401481273" POSITION="right" TEXT="Stage 1 (Mechanics)">
 <richcontent TYPE="NOTE"><html>
   <head>
     
@@ -22,9 +22,10 @@
       By the end of this stage all the scripts needed for the rest of the game should be ready so everything can be easily implemented with the graphics. But more graphically oriented scripts will be added later including shaders and scattering.<o p="#DEFAULT"></o>
     </p>
   </body>
-</html></richcontent>
+</html>
+</richcontent>
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315712566" FOLDED="true" ID="ID_1923352396" MODIFIED="1530615180142" TEXT="Sprint 1">
+<node CREATED="1530315712566" ID="ID_1923352396" MODIFIED="1530987922630" TEXT="Sprint 1">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530315716350" ID="ID_1724433076" MODIFIED="1530319651245" TEXT="Player Mechanics">
 <font NAME="SansSerif" SIZE="12"/>
@@ -39,7 +40,7 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node CREATED="1530315752094" ID="ID_1092631139" MODIFIED="1530319651245" TEXT="Locomotion (Non-animation)">
+<node CREATED="1530315752094" ID="ID_1092631139" MODIFIED="1532176415933" TEXT="Locomotion (Non-animation)">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530315759390" ID="ID_77866767" MODIFIED="1530319651245" TEXT="Parkour"/>
 <node CREATED="1530315763069" ID="ID_1412560854" MODIFIED="1530326705268" TEXT="Ledge Climbing">
@@ -59,6 +60,14 @@
 <node CREATED="1530318630027" HGAP="29" ID="ID_615341222" MODIFIED="1530319651245" TEXT="Expected Results" VSHIFT="44">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530318638313" ID="ID_434741280" MODIFIED="1530319651245" TEXT="&#xf0a7;Player Controller w/ all features needed (responsive and powerful movement w/ procedural forces)&#xa;&#xf0a7;Camera Dynamic Movement (Camera collision, movement) account for bow movement&#xa;&#xf0a7;Over the arm arrow shooting (Arrow curve and bend when you shoot, wind accounting, different bow powers). Smooth and aiming.&#xa;&#xf0a7;Optimising the code&#xa;"/>
+</node>
+<node CREATED="1532215701116" ID="ID_1008434761" MODIFIED="1532215704866" TEXT="Player Polish Stage">
+<node CREATED="1532215705068" ID="ID_1282976975" MODIFIED="1532215709584" TEXT="Fixing all going through wall bugs"/>
+<node CREATED="1532215711947" ID="ID_113053656" MODIFIED="1532215714305" TEXT="Fixing Jump">
+<node CREATED="1532215714452" ID="ID_353306645" MODIFIED="1532215718704" TEXT="Hold increases dist"/>
+<node CREATED="1532215719243" ID="ID_1197690917" MODIFIED="1532215723240" TEXT="Lasts only 0.9 seconds"/>
+<node CREATED="1532215723876" ID="ID_945438162" MODIFIED="1532215729737" TEXT="Make sure movement in air is limited "/>
+</node>
 </node>
 </node>
 <node CREATED="1530315825198" ID="ID_1108077419" MODIFIED="1530329577659" TEXT="Sprint 2">
@@ -86,7 +95,7 @@
 <node CREATED="1530329581899" ID="ID_1452874617" MODIFIED="1530329589070" TEXT="NPC&#x2019;s pathfinding w/ animation &amp; pre-defined actor to be destroyed"/>
 </node>
 </node>
-<node CREATED="1530315936077" FOLDED="true" ID="ID_1911455245" MODIFIED="1530615183725" TEXT="Sprint 3">
+<node CREATED="1530315936077" FOLDED="true" ID="ID_1911455245" MODIFIED="1532401479921" TEXT="Sprint 3">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530315939181" ID="ID_1467348356" MODIFIED="1530319651245" TEXT="Stealth Systems">
 <font NAME="SansSerif" SIZE="12"/>
@@ -98,7 +107,7 @@
 <node CREATED="1530318155299" ID="ID_787644426" MODIFIED="1530319651244" TEXT="Brainstorm/Collect Ideas"/>
 </node>
 </node>
-<node CREATED="1530315989606" FOLDED="true" ID="ID_1860429508" MODIFIED="1530615184813" TEXT="Sprint 4 ">
+<node CREATED="1530315989606" FOLDED="true" ID="ID_1860429508" MODIFIED="1532401478944" TEXT="Sprint 4 ">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530315992093" ID="ID_778734485" MODIFIED="1530319651244" TEXT="Combat System">
 <font NAME="SansSerif" SIZE="12"/>
@@ -117,7 +126,7 @@
 <node CREATED="1530316058005" ID="ID_443418647" MODIFIED="1530319651244" TEXT="P &amp; F Health / Stamina Systems"/>
 </node>
 </node>
-<node CREATED="1530316144419" FOLDED="true" ID="ID_144611184" MODIFIED="1530353657261" TEXT="Sprint 5 (Editor Mechanics)">
+<node CREATED="1530316144419" FOLDED="true" ID="ID_144611184" MODIFIED="1532401477701" TEXT="Sprint 5 (Editor Mechanics)">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530316149238" ID="ID_329933992" MODIFIED="1530319651244" TEXT="Audio Machine (for audio blending)">
 <font NAME="SansSerif" SIZE="12"/>
@@ -139,7 +148,7 @@
 <font NAME="SansSerif" SIZE="12"/>
 </node>
 </node>
-<node CREATED="1530317793667" FOLDED="true" ID="ID_1359176365" MODIFIED="1530353658542" TEXT="Story Integration Sprint 8">
+<node CREATED="1530317793667" ID="ID_1359176365" MODIFIED="1530990012516" TEXT="Story Integration Sprint 8">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530317242268" ID="ID_1490398486" MODIFIED="1530319651244" TEXT="Dialogue System">
 <font NAME="SansSerif" SIZE="12"/>
@@ -159,7 +168,7 @@
 <node CREATED="1530318547290" ID="ID_1005506406" MODIFIED="1530320148164" TEXT="&#xf0a7;Guide Systems (This is the system that helps you at the start and throughout the game when you are stuck)&#xa;&#xf0a7;Player and world Interaction (Refer to sheet)&#xa;&#xf0a7;Realism and Co-Existing World&#xa;&#xf0a7;Realistic sense of time (Time manager and day management + recording)&#xa;"/>
 </node>
 </node>
-<node CREATED="1530317179108" FOLDED="true" ID="ID_61835279" MODIFIED="1530353663619" TEXT="Sprint 6">
+<node CREATED="1530317179108" ID="ID_61835279" MODIFIED="1530990080848" TEXT="Sprint 6">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530317197579" ID="ID_1281843655" MODIFIED="1530319651244" TEXT="Inventory System">
 <font NAME="SansSerif" SIZE="12"/>
@@ -219,7 +228,7 @@
 <node CREATED="1530317462099" ID="ID_1610474555" MODIFIED="1530319651244" TEXT="This needs to be further broken down when the time comes to do this Sprint"/>
 </node>
 </node>
-<node CREATED="1530318722163" FOLDED="true" ID="ID_986448887" MODIFIED="1530353671179" TEXT="Sprint 9 (SL)">
+<node CREATED="1530318722163" ID="ID_986448887" MODIFIED="1530990171624" TEXT="Sprint 9 (SL)">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530318730874" ID="ID_1454936657" MODIFIED="1530319651244" TEXT="&#xf0a7;Saving and loading user data&#xa;&#xf0a7;Writing the camera effects&#xa;&#xf0a7;Writing UI Effects&#xa;&#xf0a7;Release assets that you made on the asset store&#xa;">
 <font NAME="SansSerif" SIZE="12"/>
@@ -359,7 +368,7 @@
 <node CREATED="1530320247720" ID="ID_1916251296" MODIFIED="1530320263019" TEXT="-New unity update on post processing volumes for different processing at different positions&#xa;-Creating a custom FOG Shader (w/ multiple colors)&#xa;-Creating image effects in the post processing stack which blend between each other during day night cycles.&#xa;-Adding blood effects and all combat particles.&#xa;-Add walking, sliding and running particles.&#xa;-Add environmental particles such as snow, leaves.&#xa;-Lens flares and sun rays casting down on the earth.&#xa;-Shaders to make the terrain tiling less obvious.&#xa;-Going through the scene and adding decorations where needed and playing the game and seeing what would make this part more interesting etc&#x2026;&#xa;-Eye adaptation tool and create nice eye adaptations.&#xa;-Make sure there are options for post processing to decrease the aliasing filter etc&#x2026;&#xa;-Write your own shaders sometimes to learn the basics.&#xa;-Adding more animations like cloth animations and sword movement etc&#x2026;&#xa;-Dust getting flung up as you walk, snow foot prints.&#xa;"/>
 </node>
 </node>
-<node CREATED="1530315698373" FOLDED="true" HGAP="45" ID="ID_1919228499" MODIFIED="1530320043707" POSITION="right" TEXT="Stage 5 (Optimising)" VSHIFT="-13">
+<node CREATED="1530315698373" FOLDED="true" HGAP="45" ID="ID_1919228499" MODIFIED="1532108831083" POSITION="right" TEXT="Stage 5 (Optimising)" VSHIFT="-13">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530318437706" ID="ID_1173424636" MODIFIED="1530319651243" TEXT="&#xf0a7;Going through and multithreading code where It can be done&#xa;&#xf0a7;Optimising all scripts based on video and implement the C# Job system&#xa;">
 <font NAME="SansSerif" SIZE="12"/>
@@ -435,7 +444,7 @@
 </node>
 </node>
 </node>
-<node CREATED="1530318288338" FOLDED="true" HGAP="47" ID="ID_444471384" MODIFIED="1530353681693" POSITION="right" TEXT="Current Tasks" VSHIFT="28">
+<node CREATED="1530318288338" FOLDED="true" HGAP="47" ID="ID_444471384" MODIFIED="1531132613537" POSITION="right" TEXT="Current Tasks" VSHIFT="28">
 <edge STYLE="bezier"/>
 <font NAME="SansSerif" SIZE="12"/>
 <icon BUILTIN="idea"/>
@@ -464,12 +473,13 @@
 <node CREATED="1530326777441" ID="ID_134258559" MODIFIED="1530326778692" TEXT="Plan"/>
 </node>
 </node>
-<node CREATED="1530318937546" FOLDED="true" ID="ID_1844985791" MODIFIED="1530319690417" POSITION="left" TEXT="Final Stages">
+<node CREATED="1530318937546" ID="ID_1844985791" MODIFIED="1532215411019" POSITION="left" TEXT="Final Stages">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530318942385" ID="ID_244170093" MODIFIED="1530319651243" TEXT="Testing">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530318984532" ID="ID_340349034" MODIFIED="1530319651243" TEXT="-Send the game out to many people, especially your subscribers &#xa;and make sure at the end of the game there is a feedback and bug reporting section.&#xa;-Especially during the game, they can pause, take a screenshot and send a bug report.&#xa;-They can leave comments and feedback at specific sections.&#xa;">
 <font NAME="SansSerif" SIZE="12"/>
+<node CREATED="1532215435430" ID="ID_753432319" MODIFIED="1532215466906" TEXT="This version of the game will be the pre-release vertical slice so they can use ALL the mechanics and fight and a little but of the story will be revealed."/>
 </node>
 </node>
 <node CREATED="1530318944466" ID="ID_54421749" MODIFIED="1530319651243" TEXT="Re-Iteration">
@@ -595,10 +605,10 @@
 </node>
 </node>
 </node>
-<node CREATED="1530319984664" FOLDED="true" HGAP="47" ID="ID_1316223867" MODIFIED="1530320410482" POSITION="right" TEXT="Order" VSHIFT="12">
+<node CREATED="1530319984664" FOLDED="true" HGAP="47" ID="ID_1316223867" MODIFIED="1532401486682" POSITION="right" TEXT="Order" VSHIFT="12">
 <node CREATED="1530319988792" ID="ID_523707607" MODIFIED="1530320014044" TEXT="1.Writing all the systems + story / scripts in the game (ex. locomotion, ai, movement) &#x2013; 4 months&#xa;2.Designing the world (World, Player, Enemies, Shaders, Materials, UV Maps, Normal Maps) &#x2013; 3 Months&#xa;3.Animating and Stitching together with the scripts &#x2013; 1-2 months&#xa;4.World Design (Placing and positioning everything and building the entire world from a map) setting up pathfinding, marking out locations where events occur, setting up the optimisation of the world, setting up perlin noise and world generation, setting up horde movement throughout the world + proper interactions &#x2026; &#x2013; 1 month&#xa;5.Lighting and Graphical Effects &#x2013; encompass light probes, reflection probes, GPU Instancing&#xa;6.Adding the story and cut scenes to the end result (all event systems all dialogue systems) implementing the story and adding gameplay cores such as missions and directives. So basically the game is constructed in this phase. Until before all the game was just gathering bones now we will throw it together. &#x2013; 1-3 (Communication and dialogue systems) months&#xa;7.Making the game work from start to finish (Event Systems and Spawning Mnagement) &#x2013; 2 months&#xa;8.Post Processing and Particle Effects + Touch-ups &#x2013; 2 weeks&#xa;9.Making the starting scene/ending scene and setup of the game scene. Beginning title screens.&#xa;10.Optimising the entire game &#x2013; 1 month&#xa;11.Music and SFX implementation (player&#x2019;s walking, sound effects make sure they&#x2019;re not choppy and they have blended together) &#x2026; Don&#x2019;t over crowd the sound system, decrease insignificant sounds etc.&#x2026; &#x2013; 1 month&#xa;12.UI Menus and Steam Overlays + Steam Achievements etc.. &#x2013; 1 month&#xa;13.Finalising + Releasing Blog &#x2013; 2 months&#xa;14.Testing phase (Friends, Family) &#x2013; 2 weeks&#xa;15.Post Production &#x2013; 1 month&#xa;16.Advertising and making it known + Trailers&#xa;17.Publishing &#x2013; 1 month&#xa;"/>
 </node>
-<node CREATED="1530614985408" ID="ID_22457388" MODIFIED="1530614988043" POSITION="right" TEXT="Pre-Developemtn">
+<node CREATED="1530614985408" ID="ID_22457388" MODIFIED="1532108954290" POSITION="right" TEXT="Pre-Developemtn">
 <node CREATED="1530614988045" ID="ID_1549373052" MODIFIED="1530614990412" TEXT="Story">
 <node CREATED="1530614991593" ID="ID_398632733" MODIFIED="1530614993061" TEXT="Story Board">
 <node CREATED="1530615022249" ID="ID_128764150" MODIFIED="1530615027941" TEXT="Every Possible Event Drawn Out"/>
@@ -608,7 +618,8 @@
 <node CREATED="1530615017410" ID="ID_854797628" MODIFIED="1530615020724" TEXT="Contribution to Gameplay"/>
 </node>
 </node>
-<node CREATED="1530614996803" ID="ID_177578733" MODIFIED="1530614999509" TEXT="Map Development">
+<node CREATED="1530614996803" ID="ID_177578733" MODIFIED="1532129467509" TEXT="Map Development">
+<icon BUILTIN="yes"/>
 <node CREATED="1530614999648" ID="ID_1660886938" MODIFIED="1530615002173" TEXT="Leveling Off"/>
 <node CREATED="1530615002683" ID="ID_1436444624" MODIFIED="1530615005437" TEXT="Story Points"/>
 <node CREATED="1530615005946" ID="ID_1332394701" MODIFIED="1530615011812" TEXT="Names/Character Introductions"/>

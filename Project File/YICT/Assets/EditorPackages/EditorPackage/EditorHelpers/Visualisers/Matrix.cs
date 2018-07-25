@@ -13,7 +13,8 @@ public class Matrix {
 	public Matrix (int x, int y, string matrixName_) {
 		Create (x, y);
 		matrixName = matrixName_;
-	}
+        d = GameObject.FindObjectOfType<DebuggerHelp>();
+    }
 
 	public float[,] v = new float[1,1];
 
@@ -112,8 +113,25 @@ public class Matrix {
 		d.Log (end);
 	}
 
+    public Index HighestInColumn(int n)
+    {
+        Index i = new Index(0, n);
+        int l = 0;
 
-	public void Print() {
+        for (int x = 0; x < xLen; x++)
+        {
+            if (v[l,n] < v[x,n])
+            {
+                l = x;
+            }
+        }
+
+        i.x = l;
+        return i;
+    }
+
+
+    public void Print() {
 		string printString = "";
 		int curLine = 0;
 		for (int x = 0; x < xLen; x++) {
@@ -412,6 +430,19 @@ public class Matrix {
 			return null;
 	}
 
+
+}
+
+public struct Index
+{
+    public int x;
+    public int y;
+
+    public Index(int x = 0, int y = 0)
+    {
+        this.x = x;
+        this.y = y;
+    }
 
 }
 

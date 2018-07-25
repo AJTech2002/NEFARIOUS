@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour {
 
-    public Motor motorRef;
+    public Motor m;
+    public bool triggerActivated;
 
     private void Awake()
     {
-        motorRef = GameObject.FindObjectOfType<Motor>();
+        m = GameObject.FindObjectOfType<Motor>();
     }
 
     public virtual void ExternalFixedUpdate()
@@ -23,15 +24,15 @@ public class Controller : MonoBehaviour {
 
     public void Detach()
     {
-        motorRef.externalControl = false;
-        motorRef.externalController = null;
+        m.externalControl = false;
+        m.externalController = null;
     }
 
     public void Attach()
     {
-        motorRef = GameObject.FindObjectOfType<Motor>();
-        motorRef.externalControl = true;
-        motorRef.externalController = this;
+        m = GameObject.FindObjectOfType<Motor>();
+        m.externalControl = true;
+        m.externalController = this;
     }
 
 }

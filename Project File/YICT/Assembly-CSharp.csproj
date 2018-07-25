@@ -77,7 +77,6 @@
     <Compile Include="Assets\EditorPackages\EditorPackage\Windows\Debugger.cs" />
     <Compile Include="Assets\EditorPackages\EditorPackage\Windows\Grapher.cs" />
     <Compile Include="Assets\EditorPackages\EditorPackage\Windows\SceneSwitcher.cs" />
-    <Compile Include="Assets\GeneticManager.cs" />
     <Compile Include="Assets\TestNetwork\NetworkTesting.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/progr/Desktop/Nefarious/NEFARIOUS/Project File/YICT/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
