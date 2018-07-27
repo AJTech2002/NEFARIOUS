@@ -76,6 +76,7 @@
     <Compile Include="Assets\IKStuff\LocomotionSystem.cs" />
     <Compile Include="Assets\IKStuff\SegundoAnimator.cs" />
     <Compile Include="Assets\IKStuff\SphericalConstraint.cs" />
+    <Compile Include="Assets\LedgeEditorHelper.cs" />
     <Compile Include="Assets\LedgeMotor.cs" />
     <Compile Include="Assets\NPC System\BehaviourProfile.cs" />
     <Compile Include="Assets\NPC System\NPC.cs" />

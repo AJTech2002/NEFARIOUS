@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using LedgeSystem;
 
 public class LedgeEditor : EditorWindow
 {
-
-    AIEditor window;
 
     [MenuItem("Locomotion/Ledge System")]
     static void Init()
@@ -17,8 +16,12 @@ public class LedgeEditor : EditorWindow
 
     private void OnGUI()
     {
-        GUILayout.Label("Ledge Editor v1");
+      
     }
+
+    
+
+
 
 
     // Window has been selected
@@ -42,11 +45,31 @@ public class LedgeEditor : EditorWindow
     void OnSceneGUI(SceneView sceneView)
     {
         Handles.BeginGUI();
-           
-        Handles.EndGUI();
+            
+        
 
-        Handles.DrawLine(GameObject.FindObjectOfType<DrawLine>().transform.position, GameObject.FindObjectOfType<DrawLine>().transform.forward + GameObject.FindObjectOfType<DrawLine>().transform.position);
+
+        Handles.EndGUI();
+        SceneView.RepaintAll();
 
     }
 
 }
+
+/*
+        GUILayout.Label("Ledge Editor v1");
+        MeshFilter go = GameObject.FindObjectOfType<DrawLine>().GetComponent<MeshFilter>();
+        Vector3[] v = go.sharedMesh.vertices;
+        Camera c = Camera.main;
+        for (int i = 0; i < v.Length; i++)
+        {
+            Vector3 a = HandleUtility.WorldToGUIPoint(go.transform.TransformPoint(v[i]));
+            if (GUI.Button(new Rect(new Vector2(a.x, a.y), new Vector2(20, 20)), i.ToString()))
+            {
+                Debug.Log(i);
+            }
+        }
+
+ */
+
+
