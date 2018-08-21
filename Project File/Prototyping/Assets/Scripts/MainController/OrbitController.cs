@@ -49,9 +49,9 @@ public class OrbitController : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Vector3 r = playerTarget.TransformPoint(playerOffset);
+       // Vector3 r = playerTarget.TransformPoint(playerOffset);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(r, 0.1f);
+       // Gizmos.DrawWireSphere(r, 0.1f);
     }
 
     private void ThirdPersonAiming()

@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AIEditor\Node.cs" />
-    <Compile Include="Assets\DrawLine.cs" />
     <Compile Include="Assets\IK System\DisplayBones.cs" />
     <Compile Include="Assets\IK System\IKBone.cs" />
     <Compile Include="Assets\IKStuff\AnimationController.cs" />
@@ -76,8 +75,14 @@
     <Compile Include="Assets\IKStuff\LocomotionSystem.cs" />
     <Compile Include="Assets\IKStuff\SegundoAnimator.cs" />
     <Compile Include="Assets\IKStuff\SphericalConstraint.cs" />
-    <Compile Include="Assets\LedgeEditorHelper.cs" />
-    <Compile Include="Assets\LedgeMotor.cs" />
+    <Compile Include="Assets\Ledge Objects\CObject.cs" />
+    <Compile Include="Assets\Ledge Objects\DrawLine.cs" />
+    <Compile Include="Assets\Ledge Objects\LedgeEditorHelper.cs" />
+    <Compile Include="Assets\Ledge Objects\LedgeMotor.cs" />
+    <Compile Include="Assets\Ledge Objects\LedgeMotorBackup.cs" />
+    <Compile Include="Assets\Ledge Objects\LedgeMotorBackup2.cs" />
+    <Compile Include="Assets\Ledge Objects\MeshDraw.cs" />
+    <Compile Include="Assets\Ledge Objects\TypeConverter.cs" />
     <Compile Include="Assets\NPC System\BehaviourProfile.cs" />
     <Compile Include="Assets\NPC System\NPC.cs" />
     <Compile Include="Assets\NPC System\SensoryManager.cs" />
@@ -167,7 +172,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
-    <Compile Include="Assets\TypeConverter.cs" />
     <None Include="Assets\PostProcessing\Resources\Shaders\DepthOfField.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />

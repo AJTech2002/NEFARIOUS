@@ -228,6 +228,11 @@ public class Motor : MonoBehaviour {
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        
+    }
+
     #endregion
 
     #region Grounding
@@ -382,7 +387,7 @@ public class Motor : MonoBehaviour {
 
     #region Physics Simulations
 
-    public void ApplyGravity(bool groundCheck)
+    public void ApplyGravity (bool groundCheck)
     {
         if (!grounded && !sphereGrounded || !groundCheck)
         {

@@ -2,7 +2,7 @@
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
 <node CREATED="1523551435019" ID="ID_575210695" MODIFIED="1530319984484" TEXT="The Development Timeline">
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315659502" FOLDED="true" ID="ID_329295681" MODIFIED="1532401481273" POSITION="right" TEXT="Stage 1 (Mechanics)">
+<node CREATED="1530315659502" ID="ID_329295681" MODIFIED="1534738900015" POSITION="right" TEXT="Stage 1 (Mechanics)">
 <richcontent TYPE="NOTE"><html>
   <head>
     
@@ -22,14 +22,13 @@
       By the end of this stage all the scripts needed for the rest of the game should be ready so everything can be easily implemented with the graphics. But more graphically oriented scripts will be added later including shaders and scattering.<o p="#DEFAULT"></o>
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315712566" ID="ID_1923352396" MODIFIED="1530987922630" TEXT="Sprint 1">
+<node CREATED="1530315712566" FOLDED="true" ID="ID_1923352396" MODIFIED="1534739018384" TEXT="Sprint 1">
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315716350" ID="ID_1724433076" MODIFIED="1530319651245" TEXT="Player Mechanics">
+<node CREATED="1530315716350" FOLDED="true" ID="ID_1724433076" MODIFIED="1534739016659" TEXT="Player Mechanics">
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315737670" ID="ID_370109284" MODIFIED="1530326672133" TEXT="Over the shoulder navigation">
+<node CREATED="1530315737670" FOLDED="true" ID="ID_370109284" MODIFIED="1534739016659" TEXT="Over the shoulder navigation">
 <icon BUILTIN="full-1"/>
 <node CREATED="1530326692449" ID="ID_1962233923" MODIFIED="1530326695527" TEXT="From Old Script"/>
 </node>
@@ -40,10 +39,11 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
-<node CREATED="1530315752094" ID="ID_1092631139" MODIFIED="1532176415933" TEXT="Locomotion (Non-animation)">
+<node CREATED="1530315752094" FOLDED="true" ID="ID_1092631139" MODIFIED="1534739016659" TEXT="Locomotion (Non-animation)">
 <font NAME="SansSerif" SIZE="12"/>
+<icon BUILTIN="messagebox_warning"/>
 <node CREATED="1530315759390" ID="ID_77866767" MODIFIED="1530319651245" TEXT="Parkour"/>
-<node CREATED="1530315763069" ID="ID_1412560854" MODIFIED="1530326705268" TEXT="Ledge Climbing">
+<node CREATED="1530315763069" FOLDED="true" ID="ID_1412560854" MODIFIED="1534739016659" TEXT="Ledge Climbing">
 <icon BUILTIN="full-2"/>
 <node CREATED="1530326706336" ID="ID_114992772" MODIFIED="1530326708242" TEXT="Dynamic"/>
 </node>
@@ -57,22 +57,40 @@
 <node CREATED="1530315877621" ID="ID_450659534" MODIFIED="1530319651245" TEXT="Parse into custom class &amp; setup static scripts that are accesible throughout the game">
 <font NAME="SansSerif" SIZE="12"/>
 </node>
-<node CREATED="1530318630027" HGAP="29" ID="ID_615341222" MODIFIED="1530319651245" TEXT="Expected Results" VSHIFT="44">
+<node CREATED="1530318630027" FOLDED="true" HGAP="29" ID="ID_615341222" MODIFIED="1534739016659" TEXT="Expected Results" VSHIFT="44">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530318638313" ID="ID_434741280" MODIFIED="1530319651245" TEXT="&#xf0a7;Player Controller w/ all features needed (responsive and powerful movement w/ procedural forces)&#xa;&#xf0a7;Camera Dynamic Movement (Camera collision, movement) account for bow movement&#xa;&#xf0a7;Over the arm arrow shooting (Arrow curve and bend when you shoot, wind accounting, different bow powers). Smooth and aiming.&#xa;&#xf0a7;Optimising the code&#xa;"/>
 </node>
-<node CREATED="1532215701116" ID="ID_1008434761" MODIFIED="1532215704866" TEXT="Player Polish Stage">
+<node CREATED="1532215701116" FOLDED="true" ID="ID_1008434761" MODIFIED="1534739016659" TEXT="Player Polish Stage">
 <node CREATED="1532215705068" ID="ID_1282976975" MODIFIED="1532215709584" TEXT="Fixing all going through wall bugs"/>
-<node CREATED="1532215711947" ID="ID_113053656" MODIFIED="1532215714305" TEXT="Fixing Jump">
+<node CREATED="1532215711947" FOLDED="true" ID="ID_113053656" MODIFIED="1534739016659" TEXT="Fixing Jump">
 <node CREATED="1532215714452" ID="ID_353306645" MODIFIED="1532215718704" TEXT="Hold increases dist"/>
 <node CREATED="1532215719243" ID="ID_1197690917" MODIFIED="1532215723240" TEXT="Lasts only 0.9 seconds"/>
 <node CREATED="1532215723876" ID="ID_945438162" MODIFIED="1532215729737" TEXT="Make sure movement in air is limited "/>
 </node>
 </node>
+<node CREATED="1534239528937" FOLDED="true" ID="ID_1099129885" MODIFIED="1534739016659" TEXT="Actionables">
+<node CREATED="1534239530725" ID="ID_484916419" MODIFIED="1534239532694" TEXT="Picking up items"/>
+<node CREATED="1534239533370" ID="ID_322800016" MODIFIED="1534239534726" TEXT="Moving things"/>
+<node CREATED="1534239535610" FOLDED="true" ID="ID_1019580803" MODIFIED="1534739016659" TEXT="Interactions basics">
+<node CREATED="1534239542178" ID="ID_1363818886" MODIFIED="1534239547281" TEXT="Write an interface for this"/>
 </node>
-<node CREATED="1530315825198" ID="ID_1108077419" MODIFIED="1530329577659" TEXT="Sprint 2">
+</node>
+</node>
+<node CREATED="1534739023944" FOLDED="true" ID="ID_1257955835" MODIFIED="1534832750077" TEXT="Sprint 1 Polish">
+<node CREATED="1534739030398" ID="ID_530157146" MODIFIED="1534739032464" TEXT="Ledge Climber">
+<node CREATED="1534739047816" ID="ID_1624139174" MODIFIED="1534739055441" TEXT="Clear up the ledge script"/>
+<node CREATED="1534739056294" ID="ID_200093448" MODIFIED="1534739060949" TEXT="Manage drop connections"/>
+<node CREATED="1534739061533" ID="ID_831020865" MODIFIED="1534739068825" TEXT="Gett attatch points working for the jump"/>
+</node>
+<node CREATED="1534739069418" ID="ID_85771112" MODIFIED="1534739072316" TEXT="Player Controller">
+<node CREATED="1534739072545" ID="ID_1794423648" MODIFIED="1534739078156" TEXT="Using AddForce for the rigidbody"/>
+<node CREATED="1534739079000" ID="ID_1623551575" MODIFIED="1534739086155" TEXT="Safety Checks based on LD Game"/>
+</node>
+</node>
+<node CREATED="1530315825198" FOLDED="true" ID="ID_1108077419" MODIFIED="1534832747555" TEXT="Sprint 2">
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315829845" ID="ID_302205264" MODIFIED="1530319651245" TEXT="NPC Mechanics">
+<node CREATED="1530315829845" ID="ID_302205264" MODIFIED="1534821921731" TEXT="NPC Mechanics">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530315832518" ID="ID_1071862328" MODIFIED="1530319651245" TEXT="Behaviour Trees">
 <node CREATED="1530318493100" ID="ID_1302762996" MODIFIED="1530319651245" TEXT="Base NPC Mechanics">
@@ -82,6 +100,7 @@
 <node CREATED="1530315837190" ID="ID_415567656" MODIFIED="1530319651245" TEXT="Pathfinding Algorithms">
 <node CREATED="1530315842901" ID="ID_478939754" MODIFIED="1530319651245" TEXT="Implemented w/ Job System"/>
 <node CREATED="1530315848045" ID="ID_115945104" MODIFIED="1530319651245" TEXT="Heap Trees"/>
+<node CREATED="1534821931916" ID="ID_527035465" MODIFIED="1534821938833" TEXT="Quad tree structure"/>
 </node>
 <node CREATED="1530315853630" ID="ID_411978181" MODIFIED="1530319651245" TEXT="Sensory Data &amp; Environment Response"/>
 <node CREATED="1530315868701" ID="ID_1145589943" MODIFIED="1530319651245" TEXT="Smart Following Behaviour"/>
@@ -95,9 +114,9 @@
 <node CREATED="1530329581899" ID="ID_1452874617" MODIFIED="1530329589070" TEXT="NPC&#x2019;s pathfinding w/ animation &amp; pre-defined actor to be destroyed"/>
 </node>
 </node>
-<node CREATED="1530315936077" FOLDED="true" ID="ID_1911455245" MODIFIED="1532401479921" TEXT="Sprint 3">
+<node CREATED="1530315936077" ID="ID_1911455245" MODIFIED="1534832751885" TEXT="Sprint 3">
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315939181" ID="ID_1467348356" MODIFIED="1530319651245" TEXT="Stealth Systems">
+<node CREATED="1530315939181" FOLDED="true" ID="ID_1467348356" MODIFIED="1534738929703" TEXT="Stealth Systems">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530315942941" ID="ID_1510528936" MODIFIED="1530319651244" TEXT="Distractions"/>
 <node CREATED="1530315946741" ID="ID_319725120" MODIFIED="1530319651244" TEXT="Looting &amp; Sneaking Around"/>
@@ -107,9 +126,9 @@
 <node CREATED="1530318155299" ID="ID_787644426" MODIFIED="1530319651244" TEXT="Brainstorm/Collect Ideas"/>
 </node>
 </node>
-<node CREATED="1530315989606" FOLDED="true" ID="ID_1860429508" MODIFIED="1532401478944" TEXT="Sprint 4 ">
+<node CREATED="1530315989606" FOLDED="true" ID="ID_1860429508" MODIFIED="1534832755200" TEXT="Sprint 4 ">
 <font NAME="SansSerif" SIZE="12"/>
-<node CREATED="1530315992093" ID="ID_778734485" MODIFIED="1530319651244" TEXT="Combat System">
+<node CREATED="1530315992093" FOLDED="true" ID="ID_778734485" MODIFIED="1534738927224" TEXT="Combat System">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530315995365" ID="ID_532951232" MODIFIED="1530319651244" TEXT="Mechanical Weapons">
 <node CREATED="1530316005821" ID="ID_980022531" MODIFIED="1530319651244" TEXT="Recoil"/>
@@ -121,7 +140,7 @@
 <node CREATED="1530316040245" ID="ID_161509776" MODIFIED="1530319651244" TEXT="Brainstorm ideas on how this will work"/>
 </node>
 </node>
-<node CREATED="1530316049726" ID="ID_347940912" MODIFIED="1530319651244" TEXT="Player / Friend NPC Combat">
+<node CREATED="1530316049726" FOLDED="true" ID="ID_347940912" MODIFIED="1534738925302" TEXT="Player / Friend NPC Combat">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530316058005" ID="ID_443418647" MODIFIED="1530319651244" TEXT="P &amp; F Health / Stamina Systems"/>
 </node>
@@ -148,7 +167,7 @@
 <font NAME="SansSerif" SIZE="12"/>
 </node>
 </node>
-<node CREATED="1530317793667" ID="ID_1359176365" MODIFIED="1530990012516" TEXT="Story Integration Sprint 8">
+<node CREATED="1530317793667" FOLDED="true" ID="ID_1359176365" MODIFIED="1534738918387" TEXT="Story Integration Sprint 8">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530317242268" ID="ID_1490398486" MODIFIED="1530319651244" TEXT="Dialogue System">
 <font NAME="SansSerif" SIZE="12"/>
@@ -168,7 +187,7 @@
 <node CREATED="1530318547290" ID="ID_1005506406" MODIFIED="1530320148164" TEXT="&#xf0a7;Guide Systems (This is the system that helps you at the start and throughout the game when you are stuck)&#xa;&#xf0a7;Player and world Interaction (Refer to sheet)&#xa;&#xf0a7;Realism and Co-Existing World&#xa;&#xf0a7;Realistic sense of time (Time manager and day management + recording)&#xa;"/>
 </node>
 </node>
-<node CREATED="1530317179108" ID="ID_61835279" MODIFIED="1530990080848" TEXT="Sprint 6">
+<node CREATED="1530317179108" FOLDED="true" ID="ID_61835279" MODIFIED="1534832761247" TEXT="Sprint 6">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530317197579" ID="ID_1281843655" MODIFIED="1530319651244" TEXT="Inventory System">
 <font NAME="SansSerif" SIZE="12"/>
@@ -190,7 +209,7 @@
 <node CREATED="1530318417251" ID="ID_38131415" MODIFIED="1530319651244" TEXT="&#xf0a7;Health and Damage system &#x2013; Regeneration period//Injury System as well//Affecting attrs like speed etc.. &#xa;&#xf0a7;Map System&#xa;"/>
 </node>
 </node>
-<node CREATED="1530317304140" ID="ID_690639792" MODIFIED="1530615188248" TEXT="Sprint 7">
+<node CREATED="1530317304140" ID="ID_690639792" MODIFIED="1534832763559" TEXT="Sprint 7">
 <richcontent TYPE="NOTE"><html>
   <head>
     
@@ -228,14 +247,14 @@
 <node CREATED="1530317462099" ID="ID_1610474555" MODIFIED="1530319651244" TEXT="This needs to be further broken down when the time comes to do this Sprint"/>
 </node>
 </node>
-<node CREATED="1530318722163" ID="ID_986448887" MODIFIED="1530990171624" TEXT="Sprint 9 (SL)">
+<node CREATED="1530318722163" FOLDED="true" ID="ID_986448887" MODIFIED="1534738968732" TEXT="Sprint 9 (SL)">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530318730874" ID="ID_1454936657" MODIFIED="1530319651244" TEXT="&#xf0a7;Saving and loading user data&#xa;&#xf0a7;Writing the camera effects&#xa;&#xf0a7;Writing UI Effects&#xa;&#xf0a7;Release assets that you made on the asset store&#xa;">
 <font NAME="SansSerif" SIZE="12"/>
 </node>
 </node>
 </node>
-<node CREATED="1530315665318" FOLDED="true" ID="ID_183294155" MODIFIED="1530320412676" POSITION="left" TEXT="Stage 2 (Game Building)">
+<node CREATED="1530315665318" ID="ID_183294155" MODIFIED="1533255988529" POSITION="left" TEXT="Stage 2 (Game Building)">
 <font NAME="SansSerif" SIZE="12"/>
 <node CREATED="1530316081437" ID="ID_238517133" MODIFIED="1530319831049" TEXT="Model Asset Development">
 <font NAME="SansSerif" SIZE="12"/>

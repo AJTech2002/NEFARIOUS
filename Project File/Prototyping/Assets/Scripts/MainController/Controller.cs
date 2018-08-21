@@ -6,6 +6,7 @@ public class Controller : MonoBehaviour {
 
     public Motor m;
     public bool triggerActivated;
+    public bool hasControl = false;
 
     private void Awake()
     {
@@ -24,12 +25,14 @@ public class Controller : MonoBehaviour {
 
     public void Detach()
     {
+        hasControl = false;
         m.externalControl = false;
         m.externalController = null;
     }
 
     public void Attach()
     {
+        hasControl = true;
         m = GameObject.FindObjectOfType<Motor>();
         m.externalControl = true;
         m.externalController = this;
