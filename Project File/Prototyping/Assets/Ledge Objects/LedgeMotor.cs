@@ -5,6 +5,8 @@ using LedgeSystem;
 
 public class LedgeMotor : MonoBehaviour {
 
+    #region Public Variables
+
     public bool drawGizmos;
     public bool debug;
 
@@ -24,6 +26,8 @@ public class LedgeMotor : MonoBehaviour {
     public LedgeController ledgeController;
     private Vector3 lastPoint;
     public int precision;
+
+    #endregion
 
 
     #region Private Variables
@@ -67,23 +71,14 @@ public class LedgeMotor : MonoBehaviour {
 
     #endregion
 
-
-
-    // 2 PROBLEMS : 
-
-    // LOOPS ARE LEDGE INDIVIDUALISED 
-    // LEDGES CANNOT GET MIXED BETWEEN EACHOTHER IN COBJECTS 
-
-
-
-
+    #region Updates
     private void LateUpdate()
     {
         if (motorHasControl == true)
         {
             //Connection logic
 
-
+            #region Jump Detection
             if (motor.cPS == Motor.PlayerState.Jumping)
             {
                 Vector3 s = (motor.topPoint()) + motor.cVelocity.normalized;
@@ -93,11 +88,16 @@ public class LedgeMotor : MonoBehaviour {
 
                 if (Physics.Raycast(ray, out hit, 2, motor.discludePlayerMask))
                 {
+                    //If the point is reachable
                     if (hit.point.y > transform.position.y - motor.playerHeight / 2)
                     {
                         Debug.DrawRay(ray.origin, hit.point - ray.origin, Color.green, 2);
 
                         bool lastPointDetected = false;
+
+                        //Sends ray from point, backwards towards the player to find the closest point to the player 
+                        //Higher precision means closer to the edge of the object
+
                         for (int i = 0; i < precision; i++)
                         {
                             Vector3 dir = transform.position - hit.point;
@@ -150,8 +150,14 @@ public class LedgeMotor : MonoBehaviour {
 
 
             }
+            #endregion
 
-            if (currentLedge != null && currentLedge.ledges.Count > 0)
+            #region Detection Code
+
+            // This is the connection detection for when the character is not attached, so that it has seemless connection
+            // But once the controller is attached, this task will be handed over.
+
+            if (currentLedge != null && currentLedge.ledges.Count > 0 && !isAttached)
             {
 
                 List<LedgeInformation> closestPointList = new List<LedgeInformation>();
@@ -265,6 +271,10 @@ public class LedgeMotor : MonoBehaviour {
 
 
             }
+
+            #endregion
+
+
         }
         else
         {
@@ -274,12 +284,17 @@ public class LedgeMotor : MonoBehaviour {
         }
     }
 
+    #endregion
 
+    #region Main
+    //Takes input while connected to the ledge
     private void InputManagementOnLedge()
     {
         //Movement logic && Dismount logic
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
+
+        // This is for detection on horizontal axis
         if (!dismountCreated || !jumpedConnection)
         {
 
@@ -288,7 +303,7 @@ public class LedgeMotor : MonoBehaviour {
 
             r *= x * trickleSpeed;
 
-
+            //If not jumped, then you can update in the direction of input
             ReUpdate(transform.position + r, r, false, LedgeConnection.ConnectionType.Normal);
 
             if (debug)
@@ -297,6 +312,7 @@ public class LedgeMotor : MonoBehaviour {
 
         }
 
+        // This is jump connection detection
         if (Input.GetKeyDown(KeyCode.Space) && closestPoint.connections.Count > 0)
         {
           
@@ -319,15 +335,12 @@ public class LedgeMotor : MonoBehaviour {
                 LedgePair pair = connections[i].whichOppositePair(closestPoint, closestPoint2);
                 if (pair != null)
                 {
-                    // print("FOUND"); 
-                    /// print("FOUND MATCHING PAIR");
                     Vector3 center = (pair.a.AbsolutePoint + pair.b.AbsolutePoint) / 2;
 
                     Vector3 dir = (center - transform.position);
 
                     if (Vector3.Distance(relativeDir, tempCenter) > Vector3.Distance(relativeDir, center))
                     {
-                        //  print("FOUND ANY");
                         temp = connections[i];
                         tempCenter = center;
                     }
@@ -346,6 +359,7 @@ public class LedgeMotor : MonoBehaviour {
                 currentLedge = p.a.parentLedge;
                 Vector3 center = p.a.AbsolutePoint + p.b.AbsolutePoint;
                 center /= 2;
+                //RE UPDATE called here
                 ReUpdate(center, transform.right, true, temp.type);
 
             }
@@ -355,13 +369,15 @@ public class LedgeMotor : MonoBehaviour {
         else if (pointToBe != lastPointToBe && !jumpedConnection || dismountCreated)
         {
             lastPointToBe = pointToBe;
+            //Connection to point it made here
             ConnectToPoint(refPoint, relativeForwardOfLedge, moveSpeed, pointToBe);
         }
     }
 
-
+    //Basically the same method inside the update function, but re-created to be used with variables and handle connections automatically
     private void ReUpdate (Vector3 pos, Vector3 r2, bool jump, LedgeConnection.ConnectionType type)
     {
+        //Complex process to find out the best ledge for connection (takes into account looping)
         if (currentLedge != null && currentLedge.ledges.Count > 0)
         {
             List<LedgeInformation> closestPointList = new List<LedgeInformation>();
@@ -470,10 +486,12 @@ public class LedgeMotor : MonoBehaviour {
                 
 
             }
-
+            //Find the forward direction of the current ledge (closestPoint, closestPoint2)
             ForwardDir();
         }
 
+        #region Attach
+        //Finds the closest attach point and then connects to it, depending on the type of connection
         if (attachPoints.Count > 0)
         {
             Vector3 tempPoint = attachPoints[0];
@@ -483,48 +501,43 @@ public class LedgeMotor : MonoBehaviour {
                 {
                     tempPoint = attachPoints[i];
                     refPoint = tempPoint;
-
-                   
-
-                    if (jump && type == LedgeConnection.ConnectionType.DismountConnection)
-                    {
-
-                        //C
-                       // DetectLedgePoint(refPoint, jump, type);
-                        pointToBe = refPoint + (relativeForwardOfLedge * 0.5f) + (Vector3.up * 0.5f);
-                        //print("JUMP TRUE");
-                        dismountCreated = true;
-                        jumpedConnection = true;
-
-
-
-
-                    }
-                    else
-                    {
-                        pointToBe = (refPoint - relativeForwardOfLedge);
-
-                        if (jump)
-                        jumpedConnection = true;
-
-                        dismountCreated = false;
-                        if (jump)
-                            ConnectToPoint(refPoint, relativeForwardOfLedge, moveSpeed, pointToBe);
-
-                    }
-
-
-
+                    
                 }
             }
-            
-        }
 
+
+            if (jump && type == LedgeConnection.ConnectionType.DismountConnection)
+            {
+
+                //C
+                // DetectLedgePoint(refPoint, jump, type);
+                pointToBe = refPoint + (relativeForwardOfLedge * 0.5f) + (Vector3.up * 0.5f);
+                //print("JUMP TRUE");
+                dismountCreated = true;
+                jumpedConnection = true;
+
+
+
+
+            }
+            else
+            {
+                pointToBe = (refPoint - relativeForwardOfLedge);
+
+                if (jump)
+                    jumpedConnection = true;
+
+                dismountCreated = false;
+                if (jump)
+                    ConnectToPoint(refPoint, relativeForwardOfLedge, moveSpeed, pointToBe);
+
+            }
+
+        }
+        #endregion
     }
 
-   
-
-
+    // NOT CURRENTLY IN USE
     public Vector3 retrieveForward()
     {
         /// GET THE NORMALISED POSITION
@@ -582,9 +595,8 @@ public class LedgeMotor : MonoBehaviour {
         return g;
 
     }
-
     
-
+    //This function can be used to locate the relative forward point of the ledge you are currently on
     private void ForwardDir()
     {
         //GENERATION IS DONE HERE
@@ -691,21 +703,9 @@ public class LedgeMotor : MonoBehaviour {
 
     }
 
-    public bool CloserTo (Vector3 a, Vector3 toB, Vector3 thanC)
-    {
+    #endregion
 
-        if (Vector3.Distance(a, toB) < Vector3.Distance(a,thanC))
-        {
-            return true;
-        }
-
-        return false;
-
-    }
-
-    
-
-
+    #region Connections Handling
     private void DetectLedgePoint (Vector3 hitPoint, bool jump, LedgeConnection.ConnectionType t)
     {
         if (attachPoints.Count > 0)
@@ -755,11 +755,13 @@ public class LedgeMotor : MonoBehaviour {
         }
     }
 
+
+    
+    //THis function attaches the controller and sends over positions to the controller 
     private void ConnectToPoint (Vector3 attachPoint, Vector3 relForw, float sp, Vector3 point)
     {
         if (ledgeController.hasControl)
         {
-           // print("JUMPED : " + jumpedConnection);
             ledgeController.ResetPosition(attachPoint, relForw, sp, this, point, dismountCreated, jumpedConnection);
            
 
@@ -771,6 +773,9 @@ public class LedgeMotor : MonoBehaviour {
             isAttached = false;
         }
     }
+    #endregion
+
+    #region Helper Functions + Gizmos
 
     public void FinishedJump()
     {
@@ -814,9 +819,23 @@ public class LedgeMotor : MonoBehaviour {
         }
     }
 
+    public bool CloserTo(Vector3 a, Vector3 toB, Vector3 thanC)
+    {
+
+        if (Vector3.Distance(a, toB) < Vector3.Distance(a, thanC))
+        {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    #endregion
+
 }
 
-
+#region Classes
 [System.Serializable]
 public class LedgeInformation
 {
@@ -832,86 +851,5 @@ public class LedgeInformation
     }
 
 }
-/*
- if (currentLedge != null && currentLedge.ledges.Count > 0)
-   {
-       List<LedgePoint> pts = currentLedge.retAllPoints();
 
-       LedgePoint tempPoint = pts[0];
-       int tempIndex = 0;
-
-       for (int i = 0; i < pts.Count; i++)
-       {
-           if (Vector3.Distance(pts[i].AbsolutePoint,transform.position) < Vector3.Distance(tempPoint.AbsolutePoint, transform.position))
-           {
-               tempPoint = pts[i];
-               tempIndex = i;
-           }
-       }
-
-
-       closestPoint = tempPoint;
-
-       Vector3 normalisedDirection = (transform.position - closestPoint.AbsolutePoint).normalized;
-
-       int afterIndex = tempIndex + 1;
-       int beforeIndex = tempIndex - 1;
-
-
-
-       if (beforeIndex >= 0)
-       {
-
-       }
-       else
-       {
-           if (currentLedge.isLoopedConnection)
-               beforeIndex = pts.Count - 1;
-           else
-               beforeIndex = -99;
-       }
-
-       if (afterIndex <= pts.Count-1)
-       {
-
-       }
-       else
-       {
-           if (currentLedge.isLoopedConnection)
-               afterIndex = 0;
-           else
-               afterIndex = -99;
-       }
-
-
-       if (afterIndex != -99 && beforeIndex != -99)
-       {
-           Vector3 dB = (pts[beforeIndex].AbsolutePoint - closestPoint.AbsolutePoint).normalized;
-           Vector3 dA = (pts[afterIndex].AbsolutePoint - closestPoint.AbsolutePoint).normalized;
-
-
-           if (Vector3.Distance(dB, normalisedDirection) < Vector3.Distance(dA, normalisedDirection))
-           {
-               //DB
-               closestPoint2 = pts[beforeIndex];
-           }
-           else
-           {
-               //DA
-               closestPoint2 = pts[afterIndex];
-           }
-
-       }
-       else if (afterIndex != -99 && beforeIndex == -99)
-       {
-           closestPoint2 = pts[afterIndex];
-       }
-       else if (afterIndex == -99 && beforeIndex != -99)
-       {
-           closestPoint2 = pts[beforeIndex];
-       }
-
-
-
-   }
-   */
+#endregion

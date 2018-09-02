@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AJTech.AI;
+using System.Reflection;
 using AJTech.Management;
 
 namespace AJTech.Editor
@@ -26,10 +27,8 @@ namespace AJTech.Editor
         }
 
     }
-}
 
-namespace AJTech.Editor
-{
+
     public class Tools
     {
         #region Helpers
@@ -62,4 +61,8 @@ namespace AJTech.Editor
         }
         #endregion
     }
+
+   
+   
+
 }

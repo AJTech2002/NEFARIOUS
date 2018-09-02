@@ -2,21 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using AJTech.Editor;
 
-public class AIEditor : EditorWindow {
+namespace AJTech.Editor {
 
-    AIEditor window;
+    public class AIEditor : EditorWindow {
 
-    [MenuItem("AI/Node Editor")]
-    static void Init()
-    {
-        EditorWindow w = (EditorWindow)EditorWindow.GetWindow(typeof(AIEditor));
-        w.Show();
+        AIEditor window;
+
+        [MenuItem("AI/Node Editor")]
+        static void Init()
+        {
+            EditorWindow w = (EditorWindow)EditorWindow.GetWindow(typeof(AIEditor));
+            w.Show();
+        }
+
+        private void OnGUI()
+        {
+            GUILayout.Label("Node Editor v1");
+        }
+
     }
 
-    private void OnGUI()
+    [System.Serializable]
+    public class NodeManagement
     {
-        GUILayout.Label("Node Editor v1");
+        public List<Node> nodes = new List<Node>();
+
+        public enum FilterMode {Name,Category};
+
+        public List<Node> Filter()
+        {
+
+            return null;
+        }
+
     }
 
 }
